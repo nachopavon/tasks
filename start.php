@@ -62,7 +62,7 @@ function tasks_init() {
 	elgg_set_config('tasks', array(
 		'title' => 'text',
 		'description' => 'longtext',
-		'list' => 'tasks/list',
+		'list_guid' => 'tasks/list',
 		'priority' => 'tasks/priority',
 		'tags' => 'tags',
 		'elapsed_time' => 'text',
