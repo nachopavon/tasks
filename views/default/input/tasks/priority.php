@@ -6,8 +6,8 @@ $vars['options_values'] = array(
 	'3' => 'high',
 );
 
-if(!isset($vars['value'])){
-	$vars['value'] = 2;
+if(!isset($vars['value']) || !$vars['value']){
+	$vars['value'] = '2';
 }
 
 echo elgg_view('input/dropdown', $vars);

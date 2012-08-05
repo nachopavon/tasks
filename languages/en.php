@@ -64,7 +64,7 @@ $english = array(
 
 	'tasks:title' => 'Name',
 	'tasks:description' => 'Description',
-	'tasks:list' => 'List',
+	'tasks:list_guid' => 'List',
 	'tasks:priority' => 'Priority',
 	'tasks:tags' => 'Tags',
 	'tasks:elapsed_time' => 'Elapsed time',
