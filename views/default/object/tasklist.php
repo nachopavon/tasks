@@ -57,22 +57,22 @@ if (elgg_in_context('widgets')) {
 if ($full) {
 	$body = elgg_view('output/longtext', array('value' => $tasklist->description));
 
+	$content = elgg_view('tasks/tasklist_graph', array(
+		'entity' => $tasklist,
+	));
+	
 	$params = array(
 		'entity' => $tasklist,
 		'title' => false,
 		'metadata' => $metadata,
 		'subtitle' => $subtitle,
 		'tags' => $tags,
+		'content' => $content,
 	);
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
-	
-	$list_body .= elgg_view('tasks/tasklist_graph', array(
-		'entity' => $tasklist,
-	));
 
 	$info = elgg_view_image_block($icon, $list_body);
-	
 	
 	$assigned_tasks = elgg_list_entities_from_metadata(array(
 		'container_guid' => $tasklist->guid,
@@ -112,7 +112,9 @@ if ($full) {
 		
 
 	echo <<<HTML
+<div class="elgg-item">
 $info
+</div>
 $body
 <div class="mtl">
 $assigned_tasks
