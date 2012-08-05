@@ -34,7 +34,7 @@ if (elgg_instanceof($container, 'user')) {
 	elgg_push_breadcrumb($container->name, "tasks/group/$container->guid/all");
 }
 if($list) {
-	elgg_push_breadcrumb($list->title, "tasks/view/$list->guid/$list->title");
+	elgg_push_breadcrumb($list->title, $list->getURL());
 }
 elgg_push_breadcrumb($title);
 
