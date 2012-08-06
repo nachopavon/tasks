@@ -129,8 +129,8 @@ $english = array(
 	/**
 	 * Task list
 	 */
-	'tasks:lists:strapline' => 'Created %s by %s',
-	'tasks:lists:deadline' => 'Deadline in %s',
+	'tasks:lists:strapline' => 'Created %s by %s. ',
+	'tasks:lists:deadline' => 'Deadline %s',
 	
 	'tasks:lists:graph:total' => '%s tasks',
 	'tasks:lists:graph:remaining' => '%s remaining',
@@ -175,6 +175,17 @@ $english = array(
 
 	'tasks:newchild' => "Create a task in this list",
 	'tasks:backtoparent' => "Back to '%s'",
+	
+	/**
+	 * Times 
+	 */
+	'friendlytime:future:minutes' => "in %s minutes",
+	'friendlytime:future:minutes:singular' => "in a minute",
+	'friendlytime:future:hours' => "in %s hours",
+	'friendlytime:future:hours:singular' => "in an hour",
+	'friendlytime:future:days' => "in %s days",
+	'friendlytime:future:days:singular' => "tomorrow",
+
 );
 
 add_translation("en", $english);

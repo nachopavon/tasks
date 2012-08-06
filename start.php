@@ -89,6 +89,8 @@ function tasks_init() {
 
 	// register ecml views to parse
 	elgg_register_plugin_hook_handler('get_views', 'ecml', 'tasks_ecml_views_hook');
+	
+	elgg_register_plugin_hook_handler('format', 'friendly:time', 'tasks_get_friendly_time');
 }
 
 /**
@@ -324,5 +326,55 @@ function tasks_ecml_views_hook($hook, $entity_type, $return_value, $params) {
 	$return_value['object/task'] = elgg_echo('item:object:task');
 	$return_value['object/tasklist'] = elgg_echo('item:object:tasklist');
 
+	return $return_value;
+}
+
+function tasks_get_friendly_time($hook, $type, $return_value, $params) {
+	$time = (int) $params['time'];
+	if ($time > time()) {
+		$diff = $time - time();
+
+		$minute = 60;
+		$hour = $minute * 60;
+		$day = $hour * 24;
+
+		if ($diff < $minute) {
+				return elgg_echo("friendlytime:justnow");
+		} else if ($diff < $hour) {
+			$diff = round($diff / $minute);
+			if ($diff == 0) {
+				$diff = 1;
+			}
+
+			if ($diff > 1) {
+				return elgg_echo("friendlytime:future:minutes", array($diff));
+			} else {
+				return elgg_echo("friendlytime:future:minutes:singular", array($diff));
+			}
+		} else if ($diff < $day) {
+			$diff = round($diff / $hour);
+			if ($diff == 0) {
+				$diff = 1;
+			}
+
+			if ($diff > 1) {
+				return elgg_echo("friendlytime:future:hours", array($diff));
+			} else {
+				return elgg_echo("friendlytime:future:hours:singular", array($diff));
+			}
+		} else {
+			$diff = round($diff / $day);
+			if ($diff == 0) {
+				$diff = 1;
+			}
+
+			if ($diff > 1) {
+				return elgg_echo("friendlytime:future:days", array($diff));
+			} else {
+				return elgg_echo("friendlytime:future:days:singular", array($diff));
+			}
+		}
+		$return_value = $time;
+	}
 	return $return_value;
 }
