@@ -232,6 +232,7 @@ function tasks_entity_menu_setup($hook, $type, $return, $params) {
 		foreach ($return as $index => $item) {
 			if ($item->getName() == 'delete') {
 				unset($return[$index]);
+				break;
 			}
 		}
 	}
@@ -266,7 +267,13 @@ function tasks_entity_menu_setup($hook, $type, $return, $params) {
 		$return[] = ElggMenuItem::factory($options);
 		
 	} elseif ($entity->getSubtype() == 'tasklist') {
-		
+		foreach ($return as $index => $item) {
+			if ($item->getName() == 'edit') {
+				$href = elgg_get_site_url() . 'tasks/editlist/' . $entity->guid;
+				$return[$index]->setHref($href);
+				break;
+			}
+		}
 	}
 
 	return $return;

@@ -26,8 +26,23 @@ elgg_push_breadcrumb(elgg_echo('edit'));
 $title = elgg_echo("tasks:lists:edit");
 
 if ($tasklist->canEdit()) {
-	$vars = array();
+	
+	$vars = array_merge(
+		elgg_get_config('tasklists'),
+		array(
+			'guid' => true,
+			'container_guid' => true,
+			'list_guid' => true,
+		)
+	);
+	foreach ($vars as $name => $dummy) {
+		if (isset($tasklist->$name)) {
+			$vars[$name] = $tasklist->$name;
+		}
+	}
+
 	$content = elgg_view_form('tasklists/edit', array(), $vars);
+
 } else {
 	$content = elgg_echo("tasks:lists:noaccess");
 }

@@ -18,7 +18,7 @@ foreach ($variables as $name => $type) {
 }
 
 // Get guids
-$tasklist_guid = (int)get_input('tasklist_guid');
+$tasklist_guid = (int)get_input('guid');
 $container_guid = (int)get_input('container_guid');
 $parent_guid = (int)get_input('list_guid');
 
