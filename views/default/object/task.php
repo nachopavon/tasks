@@ -16,7 +16,7 @@ if (!$task) {
 	return TRUE;
 }
 
-$icon = elgg_view('icon/default', array('entity' => $task, 'size' => 'tiny'));
+$icon = elgg_view_entity_icon($task, 'tiny');
 
 $status = $task->status;
 

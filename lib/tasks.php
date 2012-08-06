@@ -156,6 +156,19 @@ function tasks_prepare_radio_options($state) {
 	
 	return $actions_labels;
 }
+
+function tasks_register_actions_menu($task) {
+	foreach (tasks_get_actions_from_state($task->status) as $action) {
+		$state = tasks_get_state_from_action($action);
+		$action_url = "action/tasks/comments/add?" . http_build_query(array(
+			'entity_guid' => $task->guid,
+			'state_action' => $action,
+		));
+		$action_url = elgg_add_action_tokens_to_url($action_url);
+		$item = new ElggMenuItem($action, elgg_echo("tasks:state:action:$action"), $action_url);
+		elgg_register_menu_item('tasks_hover', $item);
+	}
+}
 				
 function tasks_get_state_from_action($action){
 	$actions_states = array(
