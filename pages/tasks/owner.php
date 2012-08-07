@@ -26,11 +26,7 @@ if ($num_lists == 1 && $list = get_entity($owner->tasklist_guid)) {
 
 $title = elgg_echo('tasks:lists:owner', array($owner->name));
 
-if (elgg_instanceof($owner, 'user')) {
-	elgg_push_breadcrumb($owner->name);
-} else {
-	elgg_push_breadcrumb($owner->title);
-}
+elgg_push_breadcrumb($owner->name);
 
 elgg_register_title_button('tasks', 'addlist');
 elgg_register_title_button('tasks', 'add');

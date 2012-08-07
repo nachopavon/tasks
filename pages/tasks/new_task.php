@@ -22,11 +22,8 @@ if (elgg_instanceof($container, 'object', 'tasklist')) {
 
 elgg_set_page_owner_guid($page_owner->getGUID());
 
-if (elgg_instanceof($container, 'user')) {
-	elgg_push_breadcrumb($container->name, $container->getURL());
-} else {
-	elgg_push_breadcrumb($container->title, $container->getURL());
-}
+elgg_push_breadcrumb($container->name, $container->getURL());
+
 $title = elgg_echo('tasks:add');
 elgg_push_breadcrumb($title);
 
