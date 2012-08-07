@@ -39,7 +39,6 @@ if($list) {
 elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($entity, array('full_view' => true));
-$content .= elgg_view_comments($entity);
 
 if (!$list && $entity->canEdit()) {
 	$url = "tasks/add/$entity->guid";
