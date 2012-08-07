@@ -27,7 +27,7 @@ $owner_link = elgg_view('output/url', array(
 $date = elgg_view_friendly_time($tasklist->time_created);
 $strapline = elgg_echo("tasks:lists:strapline", array($date, $owner_link));
 
-if (isset($tasklist->enddate)) {
+if (isset($tasklist->enddate) && $tasklist->enddate) {
 	$deadline = elgg_view_friendly_time(strtotime($tasklist->enddate));
 	$strapline .= elgg_echo("tasks:lists:deadline", array($deadline));
 }
