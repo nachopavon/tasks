@@ -48,6 +48,9 @@ if (!$list && $entity->canEdit()) {
 			'text' => elgg_echo('tasks:newchild'),
 			'link_class' => 'elgg-button elgg-button-action',
 	));
+
+} else {
+	$content .= elgg_view_comments($entity);
 }
 
 $body = elgg_view_layout('content', array(

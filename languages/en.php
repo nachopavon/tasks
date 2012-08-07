@@ -53,10 +53,14 @@ $english = array(
 
 	'river:create:object:task' => '%s created a task %s',
 	'river:create:object:tasklist' => '%s created a task list %s',
+	'river:create:object:tasklist_top' => '%s created a task list %s',
 	'river:update:object:task' => '%s updated a task %s',
 	'river:update:object:tasklist' => '%s updated a task list %s',
+	'river:update:object:tasklist_top' => '%s updated a task list %s',
 	'river:comment:object:task' => '%s commented on a task titled %s',
 	'river:comment:object:tasklist' => '%s commented on a task list titled %s',
+	'river:comment:object:tasklist_top' => '%s commented on a task list titled %s',
+	'river:comment:object:task:performed_action' => 'Performed action: ',
 
 	/**
 	 * Form fields
@@ -106,6 +110,7 @@ $english = array(
 	'tasks:error:no_title' => 'You must specify a title for this task.',
 	'tasks:delete:success' => 'The task was successfully deleted.',
 	'tasks:delete:failure' => 'The task could not be deleted.',
+	'tasks:status:changed' => 'The state of the task has been changed successfully',
 
 	'tasks:lists:noaccess' => 'No access to task list',
 	'tasks:lists:cantedit' => 'You cannot edit this task list',

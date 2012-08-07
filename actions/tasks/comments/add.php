@@ -67,10 +67,16 @@ if ($entity->owner_guid != $user->guid) {
 			);
 }
 
-system_message(elgg_echo("generic_comment:posted"));
+if ($new_state) {
+	system_message(elgg_echo("tasks:status:changed"));
+	$annotation = elgg_echo("tasks:state:action:$annotation");
+} else {
+	system_message(elgg_echo("generic_comment:posted"));
+}
 
 //add to river
-add_to_river('river/annotation/generic_comment/create', 'comment', $user->guid, $entity->guid, "", 0, $annotation);
+$river = 'river/annotation/generic_comment/create';
+add_to_river($river, 'comment', $user->guid, $entity->guid, "", 0, $annotation);
 
 // Forward to the page the action occurred on
 forward(REFERER);
