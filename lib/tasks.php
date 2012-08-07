@@ -6,7 +6,7 @@
  * @param ElggObject $tasklist
  * @return array
  */
-function tasklist_prepare_form_vars($tasklist = null, $parent_guid = 0) {
+function tasklist_prepare_form_vars($tasklist = null, $list_guid = 0) {
 
 	// input names => defaults
 	$values = array(
@@ -20,7 +20,7 @@ function tasklist_prepare_form_vars($tasklist = null, $parent_guid = 0) {
 		'container_guid' => elgg_get_page_owner_guid(),
 		'guid' => null,
 		'entity' => $tasklist,
-		'parent_guid' => $parent_guid,
+		'list_guid' => $list_guid,
 	);
 
 	if ($tasklist) {

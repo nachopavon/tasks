@@ -13,11 +13,14 @@ if (!$container) {
 
 }
 
-$parent_guid = 0;
-$page_owner = $container;
+
 if (elgg_instanceof($container, 'object', 'tasklist')) {
-	$parent_guid = $container->getGUID();
+	$list_guid = $container->getGUID();
 	$page_owner = $container->getContainerEntity();
+
+} else {
+	$list_guid = 0;
+	$page_owner = $container;
 }
 
 elgg_set_page_owner_guid($page_owner->getGUID());

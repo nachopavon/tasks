@@ -171,10 +171,10 @@ $english = array(
 	 */
 	'tasks:sidebar:this' => "This list",
 	'tasks:sidebar:children' => "List tasks",
-	'tasks:sidebar:parent' => "List",
+	'tasks:sidebar:list' => "List",
 
 	'tasks:newchild' => "Create a task in this list",
-	'tasks:backtoparent' => "Back to '%s'",
+	'tasks:backtolist' => "Back to '%s'",
 	
 	/**
 	 * Times 

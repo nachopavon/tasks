@@ -100,7 +100,7 @@ function tasks_init() {
  *  User's tasks:     tasks/owner/<username>
  *  Friends' tasks:   tasks/friends/<username>
  *  View task:        tasks/view/<guid>/<title>
- *  New task:         tasks/add/<guid> (container: user, group, parent)
+ *  New task:         tasks/add/<guid> (container: user, group; list: tasklist)
  *  Edit task:        tasks/edit/<guid>
  *  Group tasks:      tasks/group/<guid>/all
  *
