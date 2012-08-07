@@ -20,12 +20,17 @@ foreach ($variables as $name => $type) {
 // Get guids
 $task_guid = (int)get_input('task_guid');
 $list_guid = (int)get_input('list_guid');
+$container_guid = (int)get_input('container_guid');
 
 elgg_make_sticky_form('task');
 
 if (!$input['title']) {
 	register_error(elgg_echo('tasks:error:no_title'));
 	forward(REFERER);
+}
+
+if (!$container_guid) {
+	$container_guid = elgg_get_logged_in_user_guid();
 }
 
 if ($task_guid) {
@@ -35,6 +40,7 @@ if ($task_guid) {
 		forward(REFERER);
 	}
 	$new_task = false;
+
 } else {
 	$task = new ElggObject();
 	$task->subtype = 'task';
@@ -56,7 +62,7 @@ if (!$list_guid) {
 		$list = new ElggObject();
 		$list->subtype = 'tasklist';
 		$list->title = elgg_echo('tasks:owner', array($user->name));
-		$list->container_guid = $user->getGUID();
+		$list->container_guid = $container_guid;
 		$list->access_id = ACCESS_PRIVATE;
 		if(!$list->save()) {
 			register_error(elgg_echo('tasks:error:no_save'));
@@ -66,7 +72,8 @@ if (!$list_guid) {
 		$user->tasklist_guid = $list_guid;
 	}
 }
-$task->container_guid = $list_guid;
+$task->parent_guid = $list_guid;
+$task->container_guid = $container_guid;
 
 if ($task->save()) {
 

@@ -12,11 +12,7 @@ if (!$entity) {
 }
 
 $container = $entity->getContainerEntity();
-
-if(!elgg_instanceof($container, 'user') && !elgg_instanceof($container, 'group')) {
-	$list = $container;
-	$container = $list->getContainerEntity();
-}
+$list = get_entity($entity->parent_guid);
 
 elgg_set_page_owner_guid($container->guid);
 
@@ -24,6 +20,8 @@ group_gatekeeper();
 
 
 if (!$container) {
+}
+if (!$list) {
 }
 
 $title = $entity->title;

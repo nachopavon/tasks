@@ -133,7 +133,7 @@ function tasks_page_handler($page) {
 			include "$base_dir/view.php";
 			break;
 		case 'add':
-			set_input('guid', $page[1]);
+			set_input('parent_guid', $page[1]);
 			include "$base_dir/new_task.php";
 			break;
 		case 'addlist':

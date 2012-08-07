@@ -13,14 +13,14 @@ if (!$task) {
 	
 }
 
-$container = $task->getContainerEntity();
-if (!$container) {
+$list = get_entity($task->parent_guid);
+if (!$list) {
 	
 }
 
-if(!elgg_instanceof($container, 'user') && !elgg_instanceof($container, 'group')) {
-	$list = $container;
-	$container = $list->getContainerEntity();
+$container = $task->getContainerEntity();
+if (!$container) {
+	
 }
 
 elgg_set_page_owner_guid($container->getGUID());
@@ -31,7 +31,7 @@ if (elgg_instanceof($container, 'user')) {
 	elgg_push_breadcrumb($container->name, "tasks/group/$container->guid/all");
 }
 if($list) {
-	elgg_push_breadcrumb($list->title, "tasks/view/$list->guid/$list->title");
+	elgg_push_breadcrumb($list->title, $list->getURL());
 }
 elgg_push_breadcrumb($task->title, $task->getURL());
 elgg_push_breadcrumb(elgg_echo('edit'));

@@ -94,6 +94,26 @@ function tasks_get_entities($options) {
 		'subtype' => 'task',
 	);
 	
+	if (!isset($options['metadata_name_value_pairs']) || !is_array($options['metadata_name_value_pairs'])) {
+		$options['metadata_name_value_pairs'] = array();
+	}
+	
+	if (isset($options['parent_guid'])) {
+		$options['metadata_name_value_pairs'][] = array(
+			'name' => 'parent_guid',
+			'value' => $options['parent_guid']
+		);
+		unset($options['parent_guid']);
+	}
+	
+	if (isset($options['status'])) {
+		$options['metadata_name_value_pairs'][] = array(
+			'name' => 'status',
+			'value' => $options['status']
+		);
+		unset($options['status']);
+	}
+	
 	$options = array_merge($default, $options);
 	return elgg_get_entities_from_metadata($options);
 }
