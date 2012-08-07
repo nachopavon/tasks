@@ -12,7 +12,7 @@ elgg_push_breadcrumb(elgg_echo('tasks'));
 
 $lists = elgg_get_entities(array(
 	'type' => 'object',
-	'subtype' => 'tasklist',
+	'subtype' => 'tasklist_top',
 	'count' => true,
 ));
 
@@ -22,7 +22,7 @@ elgg_register_title_button('tasks', 'add');
 
 $content = elgg_list_entities(array(
 	'type' => 'object',
-	'subtype' => $lists ? 'tasklist' : 'task',
+	'subtype' => $lists ? 'tasklist_top' : 'task',
 	'full_view' => false,
 ));
 if (!$content) {

@@ -25,6 +25,7 @@ function tasks_init() {
 	// Register a url handler
 	elgg_register_entity_url_handler('object', 'task', 'tasks_url');
 	elgg_register_entity_url_handler('object', 'tasklist', 'tasks_url');
+	elgg_register_entity_url_handler('object', 'tasklist_top', 'tasks_url');
 
 	// Register some actions
 	$action_base = elgg_get_plugins_path() . 'tasks/actions/tasks';
@@ -41,6 +42,7 @@ function tasks_init() {
 	// Register entity type for search
 	elgg_register_entity_type('object', 'task');
 	elgg_register_entity_type('object', 'tasklist');
+	elgg_register_entity_type('object', 'tasklist_top');
 	
 	// Register a different form for annotations
 	elgg_register_plugin_hook_handler('comments', 'object', 'tasks_comments_hook');
@@ -48,6 +50,7 @@ function tasks_init() {
 	// Register granular notification for this type
 	register_notification_object('object', 'task', elgg_echo('tasks:new'));
 	register_notification_object('object', 'tasklist', elgg_echo('tasks:tasklist:new'));
+	register_notification_object('object', 'tasklist_top', elgg_echo('tasks:tasklist:new'));
 	elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'tasks_notify_message');
 
 	// add to groups
@@ -188,7 +191,7 @@ function tasks_icon_url_override($hook, $type, $returnvalue, $params) {
 			in_array($status, array('active', 'assigned', 'closed', 'done', 'new'))){
 			return "mod/tasks/graphics/task-icons/$status-$size.png";
 		}
-	} elseif (elgg_instanceof($entity, 'object', 'tasklist')) {
+	} elseif (elgg_instanceof($entity, 'object', 'tasklist_top') || elgg_instanceof($entity, 'object', 'tasklist')) {
 		if (!in_array($size, array('tiny', 'small', 'medium', 'large'))) {
 			$size = 'medium';
 		}
@@ -268,7 +271,7 @@ function tasks_entity_menu_setup($hook, $type, $return, $params) {
 		
 		$return[] = ElggMenuItem::factory($options);
 		
-	} elseif ($entity->getSubtype() == 'tasklist') {
+	} elseif (in_array($entity->getSubtype(), array('tasklist_top', 'tasklist'))) {
 		foreach ($return as $index => $item) {
 			if ($item->getName() == 'edit') {
 				$href = elgg_get_site_url() . 'tasks/editlist/' . $entity->guid;
@@ -300,7 +303,7 @@ function tasks_notify_message($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];
 	$to_entity = $params['to_entity'];
 	$method = $params['method'];
-	if (($entity instanceof ElggEntity) && (($entity->getSubtype() == 'tasklist') || ($entity->getSubtype() == 'task'))) {
+	if (($entity instanceof ElggEntity) && (in_array($entity->getSubtype(), array('tasklist_top', 'tasklist', 'task')))) {
 		$descr = $entity->description;
 		$title = $entity->title;
 		//@todo why?
@@ -324,6 +327,7 @@ function tasks_notify_message($hook, $entity_type, $returnvalue, $params) {
  */
 function tasks_ecml_views_hook($hook, $entity_type, $return_value, $params) {
 	$return_value['object/task'] = elgg_echo('item:object:task');
+	$return_value['object/tasklist_top'] = elgg_echo('item:object:tasklist_top');
 	$return_value['object/tasklist'] = elgg_echo('item:object:tasklist');
 
 	return $return_value;

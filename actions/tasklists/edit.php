@@ -38,7 +38,7 @@ if ($tasklist_guid) {
 	$new_tasklist = false;
 } else {
 	$tasklist = new ElggObject();
-	$tasklist->subtype = 'tasklist';
+	$tasklist->subtype = 'tasklist_top';
 	$new_tasklist = true;
 }
 

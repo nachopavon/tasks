@@ -54,7 +54,7 @@ if (!$list_guid) {
 	$list_guid = $user->tasklist_guid;
 	if (!get_entity($list_guid)) {
 		$list = new ElggObject();
-		$list->subtype = 'tasklist';
+		$list->subtype = 'tasklist_top';
 		$list->title = elgg_echo('tasks:owner', array($user->name));
 		$list->container_guid = $user->getGUID();
 		$list->access_id = ACCESS_PRIVATE;

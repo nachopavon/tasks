@@ -15,7 +15,7 @@ group_gatekeeper();
 
 $num_lists = elgg_get_entities(array(
 	'type' => 'object',
-	'subtype' => 'tasklist',
+	'subtype' => 'tasklist_top',
 	'container_guid' => $owner->guid,
 	'count' => true,
 ));
@@ -33,7 +33,7 @@ elgg_register_title_button('tasks', 'add');
 
 $content = elgg_list_entities(array(
 	'type' => 'object',
-	'subtypes' => 'tasklist',
+	'subtypes' => 'tasklist_guid',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'full_view' => false,
 ));

@@ -14,7 +14,7 @@ if (!$container) {
 }
 
 
-if (elgg_instanceof($container, 'object', 'tasklist')) {
+if (elgg_instanceof($container, 'object', 'tasklist_top') || elgg_instanceof($container, 'object', 'tasklist')) {
 	$list_guid = $container->getGUID();
 	$page_owner = $container->getContainerEntity();
 
