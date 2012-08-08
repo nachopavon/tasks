@@ -12,7 +12,6 @@ function tasklist_prepare_form_vars($tasklist = null, $list_guid = 0) {
 	$values = array(
 		'title' => '',
 		'description' => '',
-		'startdate' => '',
 		'enddate' => '',
 		'access_id' => ACCESS_DEFAULT,
 		'write_access_id' => ACCESS_DEFAULT,
@@ -56,8 +55,6 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 		'title' => '',
 		'description' => '',
 		'priority' => '',
-		'elapsed_time' => '',
-		'remaining_time' => '',
 		'access_id' => ACCESS_DEFAULT,
 		'write_access_id' => ACCESS_DEFAULT,
 		'tags' => '',

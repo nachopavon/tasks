@@ -69,15 +69,12 @@ function tasks_init() {
 		'list_guid' => 'tasks/list',
 		'priority' => 'tasks/priority',
 		'tags' => 'tags',
-		'elapsed_time' => 'text',
-		'remaining_time' => 'text',
 		'access_id' => 'access',
 	));
 	
 	elgg_set_config('tasklists', array(
 		'title' => 'text',
 		'description' => 'longtext',
-		'startdate' => 'date',
 		'enddate' => 'date',
 		'tags' => 'tags',
 		'access_id' => 'access',
