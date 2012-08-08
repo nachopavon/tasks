@@ -12,7 +12,11 @@ if (!$entity) {
 }
 
 $container = $entity->getContainerEntity();
-$list = get_entity($entity->parent_guid);
+
+if(!elgg_instanceof($container, 'user') && !elgg_instanceof($container, 'group')) {
+	$list = $container;
+	$container = $list->getContainerEntity();
+}
 
 elgg_set_page_owner_guid($container->guid);
 
@@ -20,8 +24,6 @@ group_gatekeeper();
 
 
 if (!$container) {
-}
-if (!$list) {
 }
 
 $title = $entity->title;
@@ -37,7 +39,6 @@ if($list) {
 elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($entity, array('full_view' => true));
-$content .= elgg_view_comments($entity);
 
 if (!$list && $entity->canEdit()) {
 	$url = "tasks/add/$entity->guid";
@@ -47,6 +48,9 @@ if (!$list && $entity->canEdit()) {
 			'text' => elgg_echo('tasks:newchild'),
 			'link_class' => 'elgg-button elgg-button-action',
 	));
+
+} else {
+	$content .= elgg_view_comments($entity);
 }
 
 $body = elgg_view_layout('content', array(

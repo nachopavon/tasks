@@ -20,7 +20,7 @@ foreach ($variables as $name => $type) {
 // Get guids
 $tasklist_guid = (int)get_input('guid');
 $container_guid = (int)get_input('container_guid');
-$parent_guid = (int)get_input('list_guid');
+$list_guid = (int)get_input('list_guid');
 
 elgg_make_sticky_form('tasklist');
 
@@ -38,7 +38,7 @@ if ($tasklist_guid) {
 	$new_tasklist = false;
 } else {
 	$tasklist = new ElggObject();
-	$tasklist->subtype = 'tasklist';
+	$tasklist->subtype = 'tasklist_top';
 	$new_tasklist = true;
 }
 

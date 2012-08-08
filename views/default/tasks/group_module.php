@@ -18,7 +18,7 @@ $all_link = elgg_view('output/url', array(
 elgg_push_context('widgets');
 $options = array(
 	'type' => 'object',
-	'subtype' => 'tasklist',
+	'subtype' => 'tasklist_top',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'limit' => 6,
 	'full_view' => false,

@@ -81,10 +81,9 @@ if ($full) {
 	$info = elgg_view_image_block($icon, $list_body);
 	
 	$assigned_tasks = elgg_list_entities_from_metadata(array(
-		'metadata_name_value_pairs' => array(
-			array('name' => 'parent_guid', 'value' => $tasklist->guid),
-			array('name' => 'status', 'value' => array('assigned', 'active')),
-		),
+		'container_guid' => $tasklist->guid,
+		'metadata_name' => 'status',
+		'metadata_values' => array('assigned', 'active'),
 		'full_view' => false,
 		'offset' => (int) get_input('assigned_offset'),
 		'offset_key' => 'assigned_offset',
@@ -94,10 +93,9 @@ if ($full) {
 	}
 	
 	$unassigned_tasks = elgg_list_entities_from_metadata(array(
-		'metadata_name_value_pairs' => array(
-			array('name' => 'parent_guid', 'value' => $tasklist->guid),
-			array('name' => 'status', 'value' => array('new', 'unassigned', 'reopened')),
-		),
+		'container_guid' => $tasklist->guid,
+		'metadata_name' => 'status',
+		'metadata_values' => array('new', 'unassigned', 'reopened'),
 		'full_view' => false,
 		'offset' => (int) get_input('unassigned_offset'),
 		'offset_key' => 'unassigned_offset',
@@ -107,10 +105,9 @@ if ($full) {
 	}
 	
 	$closed_tasks = elgg_list_entities_from_metadata(array(
-		'metadata_name_value_pairs' => array(
-			array('name' => 'parent_guid', 'value' => $tasklist->guid),
-			array('name' => 'status', 'value' => array('done', 'closed')),
-		),
+		'container_guid' => $tasklist->guid,
+		'metadata_name' => 'status',
+		'metadata_values' => array('done', 'closed'),
 		'full_view' => false,
 		'offset' => (int) get_input('closed_offset'),
 		'offset_key' => 'closed_offset',

@@ -6,13 +6,12 @@
  * @param ElggObject $tasklist
  * @return array
  */
-function tasklist_prepare_form_vars($tasklist = null, $parent_guid = 0) {
+function tasklist_prepare_form_vars($tasklist = null, $list_guid = 0) {
 
 	// input names => defaults
 	$values = array(
 		'title' => '',
 		'description' => '',
-		'startdate' => '',
 		'enddate' => '',
 		'access_id' => ACCESS_DEFAULT,
 		'write_access_id' => ACCESS_DEFAULT,
@@ -20,7 +19,7 @@ function tasklist_prepare_form_vars($tasklist = null, $parent_guid = 0) {
 		'container_guid' => elgg_get_page_owner_guid(),
 		'guid' => null,
 		'entity' => $tasklist,
-		'parent_guid' => $parent_guid,
+		'list_guid' => $list_guid,
 	);
 
 	if ($tasklist) {
@@ -53,11 +52,9 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 
 	// input names => defaults
 	$values = array(
-		'title' => '',
+		'title' => get_input('title', ''),
 		'description' => '',
 		'priority' => '',
-		'elapsed_time' => '',
-		'remaining_time' => '',
 		'access_id' => ACCESS_DEFAULT,
 		'write_access_id' => ACCESS_DEFAULT,
 		'tags' => '',
@@ -65,6 +62,7 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 		'guid' => null,
 		'entity' => $task,
 		'list_guid' => $list_guid,
+		'referer_guid' => get_input('referer_guid', ''),
 	);
 
 	if ($task) {
@@ -83,6 +81,14 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 	}
 
 	elgg_clear_sticky_form('task');
+	
+	if ($referer = get_input('referer')) {
+		$link = elgg_view('output/url', array(
+			'href' => $referer,
+			'text' => elgg_echo('tasks:this:moreinfo:here'),
+		));
+		$values['description'] .= "<p>" . elgg_echo('tasks:this:moreinfo', array($link)) . "</p>";
+	}
 
 	return $values;
 }
@@ -93,26 +99,6 @@ function tasks_get_entities($options) {
 		'type' => 'object',
 		'subtype' => 'task',
 	);
-	
-	if (!isset($options['metadata_name_value_pairs']) || !is_array($options['metadata_name_value_pairs'])) {
-		$options['metadata_name_value_pairs'] = array();
-	}
-	
-	if (isset($options['parent_guid'])) {
-		$options['metadata_name_value_pairs'][] = array(
-			'name' => 'parent_guid',
-			'value' => $options['parent_guid']
-		);
-		unset($options['parent_guid']);
-	}
-	
-	if (isset($options['status'])) {
-		$options['metadata_name_value_pairs'][] = array(
-			'name' => 'status',
-			'value' => $options['status']
-		);
-		unset($options['status']);
-	}
 	
 	$options = array_merge($default, $options);
 	return elgg_get_entities_from_metadata($options);
@@ -203,4 +189,11 @@ function tasks_get_state_from_action($action){
 	);
 	return $actions_states[$action];
 }
-		
+
+function tasks_get_user_active_task ($user_guid) {
+	return array_shift(elgg_get_entities_from_metadata(array(
+		'metadata_name' => 'status',
+		'metadata_value' => 'active',
+		'owner_guid' => $user_guid,
+	)));
+}

@@ -25,6 +25,7 @@ function tasks_init() {
 	// Register a url handler
 	elgg_register_entity_url_handler('object', 'task', 'tasks_url');
 	elgg_register_entity_url_handler('object', 'tasklist', 'tasks_url');
+	elgg_register_entity_url_handler('object', 'tasklist_top', 'tasks_url');
 
 	// Register some actions
 	$action_base = elgg_get_plugins_path() . 'tasks/actions/tasks';
@@ -35,12 +36,14 @@ function tasks_init() {
 	elgg_register_action("tasklists/edit", "$action_base/edit.php");
 	elgg_register_action("tasklists/delete", "$action_base/delete.php");
 
-	// Extend the main css view
+	// Extend the main css and js views
 	elgg_extend_view('css/elgg', 'tasks/css');
+	elgg_extend_view('js/elgg', 'tasks/js');
 
 	// Register entity type for search
 	elgg_register_entity_type('object', 'task');
 	elgg_register_entity_type('object', 'tasklist');
+	elgg_register_entity_type('object', 'tasklist_top');
 	
 	// Register a different form for annotations
 	elgg_register_plugin_hook_handler('comments', 'object', 'tasks_comments_hook');
@@ -48,6 +51,7 @@ function tasks_init() {
 	// Register granular notification for this type
 	register_notification_object('object', 'task', elgg_echo('tasks:new'));
 	register_notification_object('object', 'tasklist', elgg_echo('tasks:tasklist:new'));
+	register_notification_object('object', 'tasklist_top', elgg_echo('tasks:tasklist:new'));
 	elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'tasks_notify_message');
 
 	// add to groups
@@ -65,21 +69,34 @@ function tasks_init() {
 		'list_guid' => 'tasks/list',
 		'priority' => 'tasks/priority',
 		'tags' => 'tags',
-		'elapsed_time' => 'text',
-		'remaining_time' => 'text',
 		'access_id' => 'access',
 	));
 	
 	elgg_set_config('tasklists', array(
 		'title' => 'text',
 		'description' => 'longtext',
-		'startdate' => 'date',
 		'enddate' => 'date',
 		'tags' => 'tags',
 		'access_id' => 'access',
 	));
 
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'tasks_owner_block_menu');
+
+	if (elgg_is_logged_in()) {
+		$container_guid = elgg_get_page_owner_guid();
+		if (!$container_guid) {
+			$container_guid = elgg_get_logged_in_user_guid();
+		}
+		$address = urlencode(current_page_url());
+
+		elgg_register_menu_item('extras', array(
+			'name' => 'task',
+			'text' => elgg_view_icon('checkmark'),
+			'href' => "tasks/add/$container_guid?referer=$address",
+			'title' => elgg_echo('tasks:this'),
+			'rel' => 'nofollow',
+		));
+	}
 
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'tasks_icon_url_override');
@@ -100,7 +117,7 @@ function tasks_init() {
  *  User's tasks:     tasks/owner/<username>
  *  Friends' tasks:   tasks/friends/<username>
  *  View task:        tasks/view/<guid>/<title>
- *  New task:         tasks/add/<guid> (container: user, group, parent)
+ *  New task:         tasks/add/<guid> (container: user, group; list: tasklist)
  *  Edit task:        tasks/edit/<guid>
  *  Group tasks:      tasks/group/<guid>/all
  *
@@ -133,7 +150,7 @@ function tasks_page_handler($page) {
 			include "$base_dir/view.php";
 			break;
 		case 'add':
-			set_input('parent_guid', $page[1]);
+			set_input('guid', $page[1]);
 			include "$base_dir/new_task.php";
 			break;
 		case 'addlist':
@@ -188,7 +205,7 @@ function tasks_icon_url_override($hook, $type, $returnvalue, $params) {
 			in_array($status, array('active', 'assigned', 'closed', 'done', 'new'))){
 			return "mod/tasks/graphics/task-icons/$status-$size.png";
 		}
-	} elseif (elgg_instanceof($entity, 'object', 'tasklist')) {
+	} elseif (elgg_instanceof($entity, 'object', 'tasklist_top') || elgg_instanceof($entity, 'object', 'tasklist')) {
 		if (!in_array($size, array('tiny', 'small', 'medium', 'large'))) {
 			$size = 'medium';
 		}
@@ -268,7 +285,7 @@ function tasks_entity_menu_setup($hook, $type, $return, $params) {
 		
 		$return[] = ElggMenuItem::factory($options);
 		
-	} elseif ($entity->getSubtype() == 'tasklist') {
+	} elseif (in_array($entity->getSubtype(), array('tasklist_top', 'tasklist'))) {
 		foreach ($return as $index => $item) {
 			if ($item->getName() == 'edit') {
 				$href = elgg_get_site_url() . 'tasks/editlist/' . $entity->guid;
@@ -300,7 +317,7 @@ function tasks_notify_message($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];
 	$to_entity = $params['to_entity'];
 	$method = $params['method'];
-	if (($entity instanceof ElggEntity) && (($entity->getSubtype() == 'tasklist') || ($entity->getSubtype() == 'task'))) {
+	if (($entity instanceof ElggEntity) && (in_array($entity->getSubtype(), array('tasklist_top', 'tasklist', 'task')))) {
 		$descr = $entity->description;
 		$title = $entity->title;
 		//@todo why?
@@ -324,6 +341,7 @@ function tasks_notify_message($hook, $entity_type, $returnvalue, $params) {
  */
 function tasks_ecml_views_hook($hook, $entity_type, $return_value, $params) {
 	$return_value['object/task'] = elgg_echo('item:object:task');
+	$return_value['object/tasklist_top'] = elgg_echo('item:object:tasklist_top');
 	$return_value['object/tasklist'] = elgg_echo('item:object:tasklist');
 
 	return $return_value;

@@ -18,7 +18,7 @@ elgg_push_breadcrumb(elgg_echo('friends'));
 
 $title = elgg_echo('tasks:friends');
 
-$content = list_user_friends_objects($owner->guid, 'tasklist', 10, false);
+$content = list_user_friends_objects($owner->guid, 'tasklist_top', 10, false);
 if (!$content) {
 	$content = elgg_echo('tasks:none');
 }

@@ -11,3 +11,7 @@
 .elgg-input-radios label {
 	font-weight: normal;
 }
+
+.elgg-menu-extras .elgg-icon-checkmark {
+	background-position: 0 -126px;
+}
