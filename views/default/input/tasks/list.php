@@ -9,9 +9,14 @@ $entities = elgg_get_entities(array(
 	'limit' => 0,
 ));
 
-$options_values = array();
-foreach ($entities as $entity) {
-	$options_values[$entity->guid] = $entity->title;
+if ($entities) {
+	$options_values = array();
+	foreach ($entities as $entity) {
+		$options_values[$entity->guid] = $entity->title;
+	}
+} else {
+	$container_name = get_entity($container_guid)->name;
+	$options_values = array(0 => elgg_echo('tasks:owner', array($container_name)));
 }
 
 echo elgg_view('input/dropdown', array(
