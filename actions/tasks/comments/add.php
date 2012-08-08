@@ -36,6 +36,20 @@ if($comment_text) {
 	}
 }
 
+if (in_array($state_action, array('activate', 'assign_and_activate'))) {
+	if($active_task = tasks_get_user_active_task($user->guid)) {
+		$active_task->status = 'assigned';
+		$active_task->time_status_changed = time();
+		
+		$annotation = create_annotation($active_task->guid,
+								'task_state_changed',
+								'assigned',
+								"",
+								$user->guid,
+								$active_task->access_id);
+	}
+}
+
 $new_state = tasks_get_state_from_action($state_action);
 
 if($new_state) {
@@ -75,8 +89,10 @@ if ($new_state) {
 }
 
 //add to river
-$river = 'river/annotation/generic_comment/create';
-add_to_river($river, 'comment', $user->guid, $entity->guid, "", 0, $annotation);
+if (!in_array($state_action, array('activate', 'deactivate'))) {
+	$river = 'river/annotation/generic_comment/create';
+	add_to_river($river, 'comment', $user->guid, $entity->guid, "", 0, $annotation);
+}
 
 // Forward to the page the action occurred on
 forward(REFERER);

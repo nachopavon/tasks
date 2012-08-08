@@ -180,4 +180,11 @@ function tasks_get_state_from_action($action){
 	);
 	return $actions_states[$action];
 }
-		
+
+function tasks_get_user_active_task ($user_guid) {
+	return array_shift(elgg_get_entities_from_metadata(array(
+		'metadata_name' => 'status',
+		'metadata_value' => 'active',
+		'owner_guid' => $user_guid,
+	)));
+}
