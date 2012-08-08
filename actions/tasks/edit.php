@@ -19,13 +19,19 @@ foreach ($variables as $name => $type) {
 
 // Get guids
 $task_guid = (int)get_input('task_guid');
-$list_guid = (int)get_input('list_guid');
+$container_guid = (int)get_input('container_guid');
 $referer_guid = (int)get_input('referer_guid');
+
+$container = get_entity($container_guid);
 
 elgg_make_sticky_form('task');
 
 if (!$input['title']) {
 	register_error(elgg_echo('tasks:error:no_title'));
+	forward(REFERER);
+}
+
+if (!$container) {
 	forward(REFERER);
 }
 
@@ -50,24 +56,34 @@ if (sizeof($input) > 0) {
 	}
 }
 
-if (!$list_guid) {
-	$user = elgg_get_logged_in_user_entity();
-	$list_guid = $user->tasklist_guid;
-	if (!get_entity($list_guid)) {
+if (!$input['list_guid']) {
+	$lists = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => '',
+		'container_guid' => $container->guid,
+	));
+	if (!empty($lists)) {
+		$list = array_shift($lists);
+		$list_guid = $list->guid;
+		
+	} else {
 		$list = new ElggObject();
 		$list->subtype = 'tasklist_top';
-		$list->title = elgg_echo('tasks:owner', array($user->name));
-		$list->container_guid = $user->getGUID();
+		$list->title = elgg_echo('tasks:owner', array($container->name));
+		$list->container_guid = $container->getGUID();
 		$list->access_id = ACCESS_PRIVATE;
 		if(!$list->save()) {
 			register_error(elgg_echo('tasks:error:no_save'));
 			forward(REFERER);
 		}
 		$list_guid = $list->guid;
-		$user->tasklist_guid = $list_guid;
 	}
+} else {
+	$list_guid = $input['list_guid'];
 }
-$task->container_guid = $list_guid;
+
+$task->list_guid = $list_guid;
+$task->container_guid = $container_guid;
 
 if ($task->save()) {
 
@@ -91,7 +107,7 @@ if ($task->save()) {
 										'generic_comment',
 										elgg_echo('tasks:this:referer:comment', array($link)),
 										"",
-										$user->guid,
+										elgg_get_logged_in_user_guid(),
 										$referer_entity->access_id);
 	}
 

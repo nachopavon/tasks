@@ -12,9 +12,13 @@ $list = get_entity($list_guid);
 if (!$list) {
 }
 
-$container = $list->getContainerEntity();
-if (!$container) {
-	$container = elgg_get_logged_in_user_guid();
+if (elgg_instanceof($list, 'object', 'tasklist_top') || elgg_instanceof($list, 'object', 'tasklist')) {
+	$container = $list->getContainerEntity();
+	if (!$container) {
+		$container = elgg_get_logged_in_user_guid();
+	}
+} elseif (elgg_instanceof($list, 'user') || elgg_instanceof($list, 'group')) {
+	$container = $list;
 }
 
 elgg_set_page_owner_guid($container->getGUID());
