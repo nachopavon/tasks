@@ -45,6 +45,7 @@ $english = array(
 	'tasks:this' => 'Task this',
 	'tasks:this:moreinfo' => 'You can find more info %s.',
 	'tasks:this:moreinfo:here' => 'here',
+	'tasks:this:referer:comment' => 'Created new task: %s.',
 	
 	'tasks:priority:low' => 'Low priority',
 	'tasks:priority:normal' => 'Normal priority',

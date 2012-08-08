@@ -8,6 +8,7 @@
 gatekeeper();
 
 $task_title = get_input('title');
+$referer_guid = get_input('referer_guid');
 $referer = get_input('referer');
 
 $container_guid = (int) get_input('guid');
@@ -27,6 +28,9 @@ $vars = task_prepare_form_vars();
 
 if ($task_title) {
 	$vars['title'] = $task_title;
+}
+if ($referer_guid) {
+	$vars['referer_guid'] = $referer_guid;
 }
 if ($referer) {
 	$vars['description'] = elgg_view('output/url', array(

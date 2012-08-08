@@ -47,6 +47,13 @@ if ($vars['list_guid']) {
 		'value' => $vars['list_guid'],
 	));
 }
+// Referers value isn't saved in the task
+if ($vars['referer_guid']) {
+	echo elgg_view('input/hidden', array(
+		'name' => 'referer_guid',
+		'value' => $vars['referer_guid'],
+	));
+}
 
 echo elgg_view('input/submit', array('value' => elgg_echo('save')));
 

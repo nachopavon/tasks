@@ -20,6 +20,7 @@ foreach ($variables as $name => $type) {
 // Get guids
 $task_guid = (int)get_input('task_guid');
 $list_guid = (int)get_input('list_guid');
+$referer_guid = (int)get_input('referer_guid');
 
 elgg_make_sticky_form('task');
 
@@ -79,6 +80,19 @@ if ($task->save()) {
 
 	if ($new_task) {
 		add_to_river('river/object/task/create', 'create', elgg_get_logged_in_user_guid(), $task->guid);
+	}
+	
+	if ($new_task && $referer_guid && ($referer_entity = get_entity($referer_guid))) {
+		$link = elgg_view('output/url', array(
+			'href' => $task->getURL(),
+			'text' => $task->title,
+		));
+		$annotation = create_annotation($referer_entity->guid,
+										'generic_comment',
+										elgg_echo('tasks:this:referer:comment', array($link)),
+										"",
+										$user->guid,
+										$referer_entity->access_id);
 	}
 
 	forward($task->getURL());

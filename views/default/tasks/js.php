@@ -25,6 +25,11 @@ $(function(){
 		if (!title) {
 			title = encodeURIComponent($('h2.elgg-heading-main').text());
 		}
-		$(this).attr('href', $(this).attr('href') + "&title=" + title);
+		referer_guid = $('.elgg-form-comments-add input[name="entity_guid"]').val();
+		var href = $(this).attr('href') + "&title=" + title;
+		if (referer_guid) {
+			href += "&referer_guid=" + referer_guid;
+		}
+		$(this).attr('href', href);
 	});
 });
