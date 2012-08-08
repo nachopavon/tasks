@@ -5,6 +5,8 @@
  * @package ElggTasks
  */
 
+elgg_load_library("elgg:tasks");
+
 $num = (int) $vars['entity']->tasks_num;
 
 // We show active first

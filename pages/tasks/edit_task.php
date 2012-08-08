@@ -18,6 +18,11 @@ if (!$container) {
 	
 }
 
+$list = get_entity($task->list_guid);
+if (!$list) {
+	
+}
+
 elgg_set_page_owner_guid($container->getGUID());
 
 if (elgg_instanceof($container, 'user')) {
@@ -36,7 +41,7 @@ $title = elgg_echo("tasks:edit");
 if ($task->canEdit()) {
 	$vars = array(
 		'guid' => $task_guid,
-		'container_guid' => $container_guid,
+		'container_guid' => $container->guid,
 	);
 	
 	foreach(array_keys(elgg_get_config('tasks')) as $variable){
