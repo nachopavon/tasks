@@ -33,7 +33,7 @@ elgg_register_title_button('tasks', 'add');
 
 $content = elgg_list_entities(array(
 	'type' => 'object',
-	'subtypes' => 'tasklist_guid',
+	'subtypes' => 'tasklist_top',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'full_view' => false,
 ));

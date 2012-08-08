@@ -18,11 +18,6 @@ if (!$container) {
 	
 }
 
-if(!elgg_instanceof($container, 'user') && !elgg_instanceof($container, 'group')) {
-	$list = $container;
-	$container = $list->getContainerEntity();
-}
-
 elgg_set_page_owner_guid($container->getGUID());
 
 if (elgg_instanceof($container, 'user')) {

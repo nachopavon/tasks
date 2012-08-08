@@ -41,12 +41,12 @@ echo elgg_view('input/hidden', array(
 	'name' => 'container_guid',
 	'value' => $vars['container_guid'],
 ));
-if ($vars['list_guid']) {
+/*if ($vars['list_guid']) {
 	echo elgg_view('input/hidden', array(
 		'name' => 'list_guid',
 		'value' => $vars['list_guid'],
 	));
-}
+}*/
 // Referers value isn't saved in the task
 if ($vars['referer_guid']) {
 	echo elgg_view('input/hidden', array(

@@ -52,7 +52,7 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 
 	// input names => defaults
 	$values = array(
-		'title' => '',
+		'title' => get_input('title', ''),
 		'description' => '',
 		'priority' => '',
 		'access_id' => ACCESS_DEFAULT,
@@ -62,6 +62,7 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 		'guid' => null,
 		'entity' => $task,
 		'list_guid' => $list_guid,
+		'referer_guid' => get_input('referer_guid', ''),
 	);
 
 	if ($task) {
@@ -80,6 +81,14 @@ function task_prepare_form_vars($task = null, $list_guid = 0) {
 	}
 
 	elgg_clear_sticky_form('task');
+	
+	if ($referer = get_input('referer')) {
+		$link = elgg_view('output/url', array(
+			'href' => $referer,
+			'text' => elgg_echo('tasks:this:moreinfo:here'),
+		));
+		$values['description'] .= "<p>" . elgg_echo('tasks:this:moreinfo', array($link)) . "</p>";
+	}
 
 	return $values;
 }

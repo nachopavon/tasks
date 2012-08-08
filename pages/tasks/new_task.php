@@ -7,38 +7,28 @@
 
 gatekeeper();
 
-$task_title = get_input('title');
-$referer_guid = get_input('referer_guid');
-$referer = get_input('referer');
+$list_guid = (int) get_input('guid');
+$list = get_entity($list_guid);
+if (!$list) {
+}
 
-$container_guid = (int) get_input('guid');
-$container = get_entity($container_guid);
+$container = $list->getContainerEntity();
 if (!$container) {
 	$container = elgg_get_logged_in_user_guid();
 }
 
 elgg_set_page_owner_guid($container->getGUID());
 
-elgg_push_breadcrumb($container->name, elgg_get_site_url() . "tasks/owner/$container->guid");
+if (elgg_instanceof($container, 'user')) {
+	elgg_push_breadcrumb($container->name, "tasks/owner/$container->guid/");
+} elseif (elgg_instanceof($container, 'group')) {
+	elgg_push_breadcrumb($container->name, "tasks/group/$container->guid/all");
+}
 
 $title = elgg_echo('tasks:add');
 elgg_push_breadcrumb($title);
 
-$vars = task_prepare_form_vars();
-
-if ($task_title) {
-	$vars['title'] = $task_title;
-}
-if ($referer_guid) {
-	$vars['referer_guid'] = $referer_guid;
-}
-if ($referer) {
-	$vars['description'] = elgg_view('output/url', array(
-		'href' => $referer,
-		'text' => elgg_echo('tasks:this:moreinfo:here'),
-	));
-	$vars['description'] = elgg_echo('tasks:this:moreinfo', array($vars['description']));
-}
+$vars = task_prepare_form_vars(null, $list_guid);
 
 $content = elgg_view_form('tasks/edit', array(), $vars);
 
