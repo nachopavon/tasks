@@ -42,6 +42,9 @@ $english = array(
 	'tasks:more' => 'More tasks',
 	'tasks:none' => 'No tasks created yet',
 	'tasks:lists:none' => 'No task list created yet',
+	'tasks:this' => 'Task this',
+	'tasks:this:moreinfo' => 'You can find more info %s.',
+	'tasks:this:moreinfo:here' => 'here',
 	
 	'tasks:priority:low' => 'Low priority',
 	'tasks:priority:normal' => 'Normal priority',

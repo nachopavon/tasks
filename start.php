@@ -36,8 +36,9 @@ function tasks_init() {
 	elgg_register_action("tasklists/edit", "$action_base/edit.php");
 	elgg_register_action("tasklists/delete", "$action_base/delete.php");
 
-	// Extend the main css view
+	// Extend the main css and js views
 	elgg_extend_view('css/elgg', 'tasks/css');
+	elgg_extend_view('js/elgg', 'tasks/js');
 
 	// Register entity type for search
 	elgg_register_entity_type('object', 'task');
@@ -83,6 +84,22 @@ function tasks_init() {
 	));
 
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'tasks_owner_block_menu');
+
+	if (elgg_is_logged_in()) {
+		$container_guid = elgg_get_page_owner_guid();
+		if (!$container_guid) {
+			$container_guid = elgg_get_logged_in_user_guid();
+		}
+		$address = urlencode(current_page_url());
+
+		elgg_register_menu_item('extras', array(
+			'name' => 'task',
+			'text' => elgg_view_icon('checkmark'),
+			'href' => "tasks/add/$container_guid?referer=$address",
+			'title' => elgg_echo('tasks:this'),
+			'rel' => 'nofollow',
+		));
+	}
 
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'tasks_icon_url_override');
