@@ -214,3 +214,55 @@ function tasks_get_user_active_task ($user_guid) {
 		'owner_guid' => $user_guid,
 	)));
 }
+
+/**
+ * Register the navigation menu
+ * 
+ * @param ElggEntity $container Container entity for the tasks
+ */
+function tasks_register_navigation_tree($container) {
+	if (!$container) {
+		return;
+	}
+
+	$tasklists_top = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => 'tasklist_top',
+		'container_guid' => $container->getGUID(),
+		'limit' => 0,
+	));
+
+	if (!$tasklists_top) {
+		return;
+	}
+
+	foreach ($tasklists_top as $tasklist) {
+		elgg_register_menu_item('tasks_nav', array(
+			'name' => $tasklist->getGUID(),
+			'text' => $tasklist->title,
+			'href' => $tasklist->getURL(),
+		));
+
+		$stack = array();
+		array_push($stack, $tasklist);
+		while (count($stack) > 0) {
+			$list = array_pop($stack);
+			$tasks = tasks_get_entities(array(
+				'limit' => 0,
+			));
+
+			if ($tasks) {
+				foreach ($tasks as $task) {
+					elgg_register_menu_item('tasks_nav', array(
+						'name' => $task->getGUID(),
+						'text' => $task->title,
+						'href' => $task->getURL(),
+						'list_name' => $list->getGUID(),
+					));
+					array_push($stack, $task);
+				}
+			}
+		}
+	}
+}
+
