@@ -247,19 +247,24 @@ function tasks_register_navigation_tree($container) {
 		array_push($stack, $tasklist);
 		while (count($stack) > 0) {
 			$list = array_pop($stack);
-			$tasks = tasks_get_entities(array(
+			$tasklists = elgg_get_entities_from_metadata(array(
+				'type' => 'object',
+				'subtype' => 'tasklist',
+				'metadata_name' => 'list_guid',
+				'metadata_value' => $list->guid,
+				'container_guid' => $container->getGUID(),
 				'limit' => 0,
 			));
 
-			if ($tasks) {
-				foreach ($tasks as $task) {
+			if ($tasklists) {
+				foreach ($tasklists as $tasklist) {
 					elgg_register_menu_item('tasks_nav', array(
-						'name' => $task->getGUID(),
-						'text' => $task->title,
-						'href' => $task->getURL(),
-						'list_name' => $list->getGUID(),
+						'name' => $tasklist->getGUID(),
+						'text' => $tasklist->title,
+						'href' => $tasklist->getURL(),
+						'parent_name' => $list->getGUID(),
 					));
-					array_push($stack, $task);
+					array_push($stack, $tasklist);
 				}
 			}
 		}
