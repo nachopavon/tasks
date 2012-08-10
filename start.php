@@ -39,6 +39,8 @@ function tasks_init() {
 	// Extend the main css and js views
 	elgg_extend_view('css/elgg', 'tasks/css');
 	elgg_extend_view('js/elgg', 'tasks/js');
+	
+	elgg_register_ajax_view('object/task');
 
 	// Register entity type for search
 	elgg_register_entity_type('object', 'task');

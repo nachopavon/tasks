@@ -15,3 +15,7 @@
 .elgg-menu-extras .elgg-icon-checkmark {
 	background-position: 0 -126px;
 }
+
+#tasks-inline-form {
+	padding: 10px
+}

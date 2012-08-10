@@ -8,6 +8,7 @@
  * @uses $vars['full_view'] Whether to display the full view
  */
 
+elgg_load_library('elgg:tasks');
 
 $full = elgg_extract('full_view', $vars, FALSE);
 $task = elgg_extract('entity', $vars, FALSE);

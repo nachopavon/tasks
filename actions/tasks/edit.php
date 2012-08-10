@@ -35,6 +35,10 @@ if (!$container) {
 	forward(REFERER);
 }
 
+if ($input['priority'] == null) {
+	$input['priority'] = '2'; // normal is default
+}
+
 if ($task_guid) {
 	$task = get_entity($task_guid);
 	if (!$task || !$task->canEdit()) {
@@ -111,6 +115,9 @@ if ($task->save()) {
 										$referer_entity->access_id);
 	}
 
+	// add guid into output json response
+	echo "{\"guid\": \"$task->guid\"}";
+	
 	forward($task->getURL());
 } else {
 	register_error(elgg_echo('tasks:error:no_save'));

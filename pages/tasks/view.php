@@ -36,12 +36,24 @@ elgg_push_breadcrumb($title);
 $content = elgg_view_entity($entity, array('full_view' => true));
 
 if (!$list && $entity->canEdit()) {
+	
+	elgg_load_js('lightbox');
+	elgg_load_css('lightbox');
+	
 	$url = "tasks/add/$entity->guid";
 	elgg_register_menu_item('title', array(
 			'name' => 'subtask',
 			'href' => $url,
 			'text' => elgg_echo('tasks:newchild'),
 			'link_class' => 'elgg-button elgg-button-action',
+	));
+	
+	$content .= elgg_view_form('tasks/inline', array(
+		'id' => 'tasks-inline-form',
+		'class' => 'hidden',
+		'action' => 'action/tasks/edit',
+	), array(
+		'list' => $entity,
 	));
 
 } else {

@@ -81,6 +81,7 @@ $english = array(
 	
 	'tasks:changehistory' => 'Change history',
 	'tasks:comments:post' => 'Save changes',
+	'tasks:add:gofull' => 'View full form',
 	
 	'tasks:state:actions' => 'Actions',
 	'tasks:state:action:noaction' => 'Leave as <em>%s</em>',
