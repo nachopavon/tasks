@@ -41,12 +41,12 @@ if (in_array($state_action, array('activate', 'assign_and_activate'))) {
 		$active_task->status = 'assigned';
 		$active_task->time_status_changed = time();
 		
-		$annotation = create_annotation($active_task->guid,
-								'task_state_changed',
-								'assigned',
-								"",
-								$user->guid,
-								$active_task->access_id);
+		create_annotation($active_task->guid,
+						'task_state_changed',
+						'assigned',
+						"",
+						$user->guid,
+						$active_task->access_id);
 	}
 }
 
@@ -56,12 +56,12 @@ if($new_state) {
 	$entity->status = $new_state;
 	$entity->time_status_changed = time();
 	
-	$annotation = create_annotation($entity->guid,
-								'task_state_changed',
-								$state_action,
-								"",
-								$user->guid,
-								$entity->access_id);
+	create_annotation($entity->guid,
+					'task_state_changed',
+					$state_action,
+					"",
+					$user->guid,
+					$entity->access_id);
 }
 
 // notify if poster wasn't owner
@@ -83,15 +83,16 @@ if ($entity->owner_guid != $user->guid) {
 
 if ($new_state) {
 	system_message(elgg_echo("tasks:status:changed"));
-	$annotation = elgg_echo("tasks:state:action:$annotation");
+	$action = $state_action;
 } else {
 	system_message(elgg_echo("generic_comment:posted"));
+	$action = 'comment';
 }
 
 //add to river
 if (!in_array($state_action, array('activate', 'deactivate'))) {
 	$river = 'river/annotation/generic_comment/create';
-	add_to_river($river, 'comment', $user->guid, $entity->guid, "", 0, $annotation);
+	add_to_river($river, $action, $user->guid, $entity->guid, "", 0, $annotation);
 }
 
 // Forward to the page the action occurred on

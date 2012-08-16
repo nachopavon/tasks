@@ -64,8 +64,15 @@ $english = array(
 	'river:comment:object:task' => '%s commented on a task titled %s',
 	'river:comment:object:tasklist' => '%s commented on a task list titled %s',
 	'river:comment:object:tasklist_top' => '%s commented on a task list titled %s',
-	'river:comment:object:task:performed_action' => 'Performed action: ',
 
+	'river:assign:object:task' => "%s assgined herself the task titled %s",
+	'river:activate:object:task' => "%s set as her active task the task titled %s",
+	'river:deactivate:object:task' => "%s unset as her active task the task titled %s",
+	'river:mark_as_done:object:task' => "%s set as done the task titled %s",
+	'river:reopen:object:task' => "%s reopened the task titled %s",
+	'river:leave:object:task' => "%s left to do the task titled %s",
+	'river:close:object:task' => "%s closed the task titled %s",
+	
 	/**
 	 * Form fields
 	 */
