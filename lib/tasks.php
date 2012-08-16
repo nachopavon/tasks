@@ -192,6 +192,13 @@ function tasks_register_actions_menu($task) {
 		elgg_register_menu_item('tasks_hover', $item);
 	}
 }
+
+function tasks_reset_actions_menu() {
+	global $CONFIG;
+	if (isset($CONFIG->menus['tasks_hover'])) {
+		unset($CONFIG->menus['tasks_hover']);
+	}
+}
 				
 function tasks_get_state_from_action($action){
 	$actions_states = array(

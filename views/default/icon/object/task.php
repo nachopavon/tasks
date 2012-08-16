@@ -60,6 +60,8 @@ if ($use_hover) {
 	);
 	echo elgg_view_icon('hover-menu');
 	echo elgg_view_menu('tasks_hover', $params);
+	
+	tasks_reset_actions_menu();
 }
 
 if ($use_link) {

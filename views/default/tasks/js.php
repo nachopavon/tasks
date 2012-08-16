@@ -25,11 +25,10 @@ $(function() {
 			inline: true,
 			'onLoad': function() {$('#tasks-inline-form').show()},
 			'onComplete': function() {$('.elgg-autofocus').focus()},
-			'onClosed': function() {$(this).blur()},
+			'onClosed': function() {$('#tasks-inline-form').hide();$(this).blur()},
 			'width': '50%',
 		});
 		$('#tasks-inline-form').submit(function() {
-			$(this).hide();
 			$.colorbox.close();
 			var values = {};
 			$.each($(this).serializeArray(), function(i, field) {
