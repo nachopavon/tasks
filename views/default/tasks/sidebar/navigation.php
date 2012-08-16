@@ -10,9 +10,11 @@ elgg_load_js('jquery-treeview');
 elgg_load_css('jquery-treeview');
 
 
-$selected_task = elgg_extract('task', $vars, false);
-if ($selected_task) {
-	$url = $selected_task->getURL();
+$entity = elgg_extract('entity', $vars, false);
+if (elgg_instanceof($entity, 'object', 'task') && ($list = get_entity($entity->list_guid))) {
+	$url = $list->getURL();
+} elseif ($entity) {
+	$url = $entity->getURL();
 }
 
 $title = elgg_echo('tasks:navigation');
@@ -36,7 +38,7 @@ $(document).ready(function() {
 	});
 
 <?php
-if ($selected_task) {
+if ($entity) {
 	// if on a history page, we need to manually select the correct menu item
 	// code taken from the jquery.treeview library
 ?>
