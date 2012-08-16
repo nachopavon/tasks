@@ -5,6 +5,7 @@
 ?>
 
 elgg.provide('elgg.ui.getSelection');
+elgg.provide('elgg.tasks');
 
 elgg.ui.getSelection = function () {
 	if (window.getSelection) {
@@ -38,6 +39,7 @@ $(function() {
 				data: values,
 				success: function(json) {
 					var listview = $('.elgg-module-info h3:contains(' + elgg.echo('tasks:unassigned') + ')').parent().parent().find('.elgg-list-entity');
+					var tasklist_graph = $('.tasklist-graph').parent();
 					elgg.get({
 						url: elgg.config.wwwroot + "ajax/view/object/task",
 						dataType: "html",
@@ -50,6 +52,19 @@ $(function() {
 								htmlData = '<li class="elgg-item" id="elgg-object-'
 												+ json.output.guid + '">' + htmlData + '</li>';
 								listview.prepend(htmlData);
+							}
+						}
+					});console.log(json.output.list_guid);
+					elgg.get({
+						url: elgg.config.wwwroot + "ajax/view/tasks/tasklist_graph",
+						dataType: "html",
+						cache: false,
+						data: {
+							guid: json.output.list_guid,
+						},
+						success: function(htmlData) {
+							if (htmlData.length > 0) {
+								tasklist_graph.html(htmlData);
 							}
 						}
 					});

@@ -43,8 +43,9 @@ if ($total == 0) {
 
 ?>
 
+<div>
 <div class="tasklist-graph">
-	<div style="width:<?php echo $percent; ?>%">&nbsp;</div>
+	<div style="width:<?php echo $percent.'%'; ?>">&nbsp;</div>
 </div>
 
 <?php
@@ -53,3 +54,7 @@ echo '<a href="">' . elgg_echo('tasks:lists:graph:total', array($total)) . '</a>
 echo '<a href="">' . elgg_echo('tasks:lists:graph:remaining', array($remaining)) . '</a>, ';
 echo '<a href="">' . elgg_echo('tasks:lists:graph:assigned', array($assigned)) . '</a>, ';
 echo '<a href="">' . elgg_echo('tasks:lists:graph:active', array($active)) . '</a>';
+
+?>
+
+</div>
