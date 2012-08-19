@@ -95,5 +95,9 @@ if (!in_array($state_action, array('activate', 'deactivate'))) {
 	add_to_river($river, $action, $user->guid, $entity->guid, "", 0, $annotation);
 }
 
+if ($new_state) {
+	echo "{\"new_state\": \"$new_state\"}";
+}
+
 // Forward to the page the action occurred on
 forward(REFERER);
