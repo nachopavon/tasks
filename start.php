@@ -40,6 +40,10 @@ function tasks_init() {
 	elgg_extend_view('css/elgg', 'tasks/css');
 	elgg_extend_view('js/elgg', 'tasks/js');
 	
+	// register the blog's JavaScript
+	elgg_register_simplecache_view('js/tasks/tasklists');
+	elgg_register_js('elgg.tasks', elgg_get_simplecache_url('js', 'tasks/tasklists'));
+	
 	elgg_register_ajax_view('object/task');
 	elgg_register_ajax_view('tasks/tasklist_graph');
 

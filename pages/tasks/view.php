@@ -36,9 +36,8 @@ elgg_push_breadcrumb($title);
 $content = elgg_view_entity($entity, array('full_view' => true));
 
 if (!$list && $entity->canEdit()) {
-	
-	elgg_load_js('lightbox');
-	elgg_load_css('lightbox');
+
+	elgg_load_js('elgg.tasks');
 	
 	$url = "tasks/add/$entity->guid";
 	elgg_register_menu_item('title', array(
