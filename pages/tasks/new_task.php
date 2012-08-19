@@ -24,7 +24,7 @@ if (elgg_instanceof($list, 'object', 'tasklist_top') || elgg_instanceof($list, '
 elgg_set_page_owner_guid($container->getGUID());
 
 if (elgg_instanceof($container, 'user')) {
-	elgg_push_breadcrumb($container->name, "tasks/owner/$container->guid/");
+	elgg_push_breadcrumb($container->name, "tasks/owner/$container->username/");
 } elseif (elgg_instanceof($container, 'group')) {
 	elgg_push_breadcrumb($container->name, "tasks/group/$container->guid/all");
 }
