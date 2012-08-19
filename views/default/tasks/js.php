@@ -20,12 +20,54 @@ elgg.ui.getSelection = function () {
 	}
 }
 
+elgg.tasks.updateTaskGraph = function() {
+	var tasklist_graph = $('.tasklist-graph').parent();
+	var guid = parseInt(window.location.href.substr(elgg.config.wwwroot.length + 'tasks/view/'.length));
+	elgg.get({
+		url: elgg.config.wwwroot + "ajax/view/tasks/tasklist_graph",
+		dataType: "html",
+		cache: false,
+		data: {
+			guid: guid,
+		},
+		success: function(htmlData) {
+			if (htmlData.length > 0) {
+				tasklist_graph.html(htmlData);
+			}
+		}
+	});
+}
+
+elgg.tasks.move = function(guid, newlist) {
+	elgg.get({
+		url: elgg.config.wwwroot + "ajax/view/object/task",
+		dataType: "html",
+		cache: false,
+		data: {
+			guid: guid,
+		},
+		success: function(htmlData) {
+			if (htmlData.length > 0) {
+				$('#elgg-object-' + guid).remove();
+
+				htmlData = '<li class="elgg-item" id="elgg-object-'
+								+ guid + '">' + htmlData + '</li>';
+
+				if (listview.find('.elgg-list-entity').length > 0) {
+					listview.find('.elgg-list-entity').prepend(htmlData)
+				} else {
+					$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(listview.show());
+				}
+			}
+		}
+	});
+}
+
 elgg.tasks.changeStatus = function(event) {
 	var action = $('a', this).attr('href');
 	var guid = (new RegExp('[\\?&]entity_guid=([^&#]*)').exec(action))[1];
 	elgg.action(action, {
 		success: function(json) {
-
 			switch (json.output.new_state) {
 				case 'assigned':
 				case 'active':
@@ -41,30 +83,9 @@ elgg.tasks.changeStatus = function(event) {
 					var list = 'closed';
 					break;
 			}
-			var listview = $('#tasks-status-' + list);
-
-			elgg.get({
-				url: elgg.config.wwwroot + "ajax/view/object/task",
-				dataType: "html",
-				cache: false,
-				data: {
-					guid: guid,
-				},
-				success: function(htmlData) {
-					if (htmlData.length > 0) {
-						$('#elgg-object-' + guid).remove();
-
-						htmlData = '<li class="elgg-item" id="elgg-object-'
-										+ guid + '">' + htmlData + '</li>';
-
-						if (listview.find('.elgg-list-entity').length > 0) {
-							listview.find('.elgg-list-entity').prepend(htmlData)
-						} else {
-							$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(listview.show());
-						}
-					}
-				}
-			});
+			var newlist = $('#tasks-status-' + list);
+			elgg.tasks.move(guid, newlist);
+			elgg.tasks.updateTaskGraph();
 		}
 	});
 	event.preventDefault();
@@ -88,8 +109,7 @@ $(function() {
 			elgg.action($(this).attr('action'), {
 				data: values,
 				success: function(json) {
-					var listview = $('.elgg-module-info h3:contains(' + elgg.echo('tasks:unassigned') + ')').parent().parent();
-					var tasklist_graph = $('.tasklist-graph').parent();
+					var unassignedlist = $('#tasks-status-unassigned').parent().parent();
 					elgg.get({
 						url: elgg.config.wwwroot + "ajax/view/object/task",
 						dataType: "html",
@@ -102,27 +122,15 @@ $(function() {
 								htmlData = '<li class="elgg-item" id="elgg-object-'
 												+ json.output.guid + '">' + htmlData + '</li>';
 								
-								if (listview.find('.elgg-list-entity').length > 0) {
-									listview.find('.elgg-list-entity').prepend(htmlData)
+								if (unassignedlist.find('.elgg-list-entity').length > 0) {
+									unassignedlist.find('.elgg-list-entity').prepend(htmlData)
 								} else {
-									$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(listview.show());
+									$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(unassignedlist.show());
 								}
 							}
 						}
 					});
-					elgg.get({
-						url: elgg.config.wwwroot + "ajax/view/tasks/tasklist_graph",
-						dataType: "html",
-						cache: false,
-						data: {
-							guid: json.output.list_guid,
-						},
-						success: function(htmlData) {
-							if (htmlData.length > 0) {
-								tasklist_graph.html(htmlData);
-							}
-						}
-					});
+					elgg.tasks.updateTaskGraph();
 				}
 			});
 			this.reset();
