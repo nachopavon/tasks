@@ -53,10 +53,10 @@ elgg.tasks.move = function(guid, newlist) {
 				htmlData = '<li class="elgg-item" id="elgg-object-'
 								+ guid + '">' + htmlData + '</li>';
 
-				if (listview.find('.elgg-list-entity').length > 0) {
-					listview.find('.elgg-list-entity').prepend(htmlData)
+				if (newlist.find('.elgg-list-entity').length > 0) {
+					newlist.find('.elgg-list-entity').prepend(htmlData)
 				} else {
-					$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(listview.show());
+					$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(newlist.show());
 				}
 			}
 		}
@@ -93,15 +93,13 @@ elgg.tasks.changeStatus = function(event) {
 
 $(function() {
 	if($.colorbox) {
-		$('.elgg-menu-title .elgg-menu-item-subtask a').attr('href', '#tasks-inline-form').colorbox({
-			inline: true,
-			'onLoad': function() {$('#tasks-inline-form').show()},
-			'onComplete': function() {$('.elgg-autofocus').focus()},
-			'onClosed': function() {$('#tasks-inline-form').hide();$(this).blur()},
-			'width': '50%',
+		$('.elgg-menu-title .elgg-menu-item-subtask a').click(function(event) {
+			$('#tasks-inline-form')
+				.slideToggle()
+				.find('[name="title"]').focus();
+			event.preventDefault();
 		});
 		$('#tasks-inline-form').submit(function(event) {
-			$.colorbox.close();
 			var values = {};
 			$.each($(this).serializeArray(), function(i, field) {
 				values[field.name] = field.value;
@@ -134,6 +132,7 @@ $(function() {
 				}
 			});
 			this.reset();
+			$(this).slideUp();
 			event.preventDefault();
 		});
 	}

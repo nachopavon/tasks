@@ -48,14 +48,6 @@ if (!$list && $entity->canEdit()) {
 			'link_class' => 'elgg-button elgg-button-action',
 	));
 	
-	$content .= elgg_view_form('tasks/inline', array(
-		'id' => 'tasks-inline-form',
-		'class' => 'hidden',
-		'action' => 'action/tasks/edit',
-	), array(
-		'list' => $entity,
-	));
-
 } else {
 	$content .= elgg_view_comments($entity);
 }

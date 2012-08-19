@@ -80,6 +80,14 @@ if ($full) {
 
 	$info = elgg_view_image_block($icon, $list_body);
 	
+	$new_task_form = elgg_view_form('tasks/inline', array(
+		'id' => 'tasks-inline-form',
+		'class' => 'hidden',
+		'action' => 'action/tasks/edit',
+	), array(
+		'list' => $tasklist,
+	));
+	
 	$assigned_tasks = elgg_list_entities(array(
 		'list_guid' => $tasklist->guid,
 		'status' => array('assigned', 'active'),
@@ -129,6 +137,7 @@ if ($full) {
 $info
 </div>
 $body
+$new_task_form
 <div class="mtl">
 $assigned_tasks
 $unassigned_tasks

@@ -20,7 +20,9 @@ echo elgg_view('input/hidden', array(
 	'name' => 'container_guid',
 	'value' => $vars['list']->container_guid,
 ));
-echo elgg_view('input/submit');
+echo elgg_view('input/submit', array(
+	'value' => elgg_echo('save'),
+));
 echo elgg_view('output/url', array(
 	'text' => elgg_echo('tasks:add:gofull'),
 	'href' => "tasks/add/{$vars['list']->guid}",
