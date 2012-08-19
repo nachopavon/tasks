@@ -88,9 +88,8 @@ if ($full) {
 		'offset_key' => 'assigned_offset',
 	), 'tasks_get_entities');
 	
-	if($assigned_tasks) {
-		$assigned_tasks = elgg_view_module('info', elgg_echo('tasks:assigned'), $assigned_tasks);
-	}
+	$hidden = !$assigned_tasks ? array('class' => 'hidden') : array();
+	$assigned_tasks = elgg_view_module('info', elgg_echo('tasks:assigned'), $assigned_tasks, $hidden);
 	
 	$unassigned_tasks = elgg_list_entities(array(
 		'list_guid' => $tasklist->guid,
@@ -100,9 +99,8 @@ if ($full) {
 		'offset_key' => 'unassigned_offset',
 	), 'tasks_get_entities');
 	
-	if($unassigned_tasks) {
-		$unassigned_tasks = elgg_view_module('info', elgg_echo('tasks:unassigned'), $unassigned_tasks);
-	}
+	$hidden = !$unassigned_tasks ? array('class' => 'hidden') : array();
+	$unassigned_tasks = elgg_view_module('info', elgg_echo('tasks:unassigned'), $unassigned_tasks, $hidden);
 	
 	$closed_tasks = elgg_list_entities(array(
 		'list_guid' => $tasklist->guid,
@@ -111,9 +109,10 @@ if ($full) {
 		'offset' => (int) get_input('closed_offset'),
 		'offset_key' => 'closed_offset',
 	), 'tasks_get_entities');
-	if($closed_tasks) {
-		$closed_tasks = elgg_view_module('info', elgg_echo('tasks:closed'),	$closed_tasks);
-	}
+	
+	$hidden = !$closed_tasks ? array('class' => 'hidden') : array();
+	$closed_tasks = elgg_view_module('info', elgg_echo('tasks:closed'),	$closed_tasks, $hidden);
+	
 		
 
 	echo <<<HTML
