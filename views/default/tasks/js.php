@@ -20,6 +20,24 @@ elgg.ui.getSelection = function () {
 	}
 }
 
+elgg.tasks.newTask = function(event) {
+	var values = {};
+	$.each($(this).serializeArray(), function(i, field) {
+		values[field.name] = field.value;
+	});
+	elgg.action($(this).attr('action'), {
+		data: values,
+		success: function(json) {
+			var unassignedlist = $('#tasks-status-unassigned').parent().parent();
+			elgg.tasks.insert(json.output.guid, unassignedlist);
+			elgg.tasks.updateTaskGraph();
+		}
+	});
+	this.reset();
+	$(this).slideUp();
+	event.preventDefault();
+}
+
 elgg.tasks.updateTaskGraph = function() {
 	var tasklist_graph = $('.tasklist-graph').parent();
 	var guid = parseInt(window.location.href.substr(elgg.config.wwwroot.length + 'tasks/view/'.length));
@@ -38,7 +56,7 @@ elgg.tasks.updateTaskGraph = function() {
 	});
 }
 
-elgg.tasks.move = function(guid, newlist) {
+elgg.tasks.insert = function(guid, list) {
 	elgg.get({
 		url: elgg.config.wwwroot + "ajax/view/object/task",
 		dataType: "html",
@@ -48,15 +66,13 @@ elgg.tasks.move = function(guid, newlist) {
 		},
 		success: function(htmlData) {
 			if (htmlData.length > 0) {
-				$('#elgg-object-' + guid).remove();
-
 				htmlData = '<li class="elgg-item" id="elgg-object-'
 								+ guid + '">' + htmlData + '</li>';
 
-				if (newlist.find('.elgg-list-entity').length > 0) {
-					newlist.find('.elgg-list-entity').prepend(htmlData)
+				if (list.find('.elgg-list-entity').length > 0) {
+					list.find('.elgg-list-entity').prepend(htmlData)
 				} else {
-					$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(newlist.show());
+					$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(list.show());
 				}
 			}
 		}
@@ -84,7 +100,8 @@ elgg.tasks.changeStatus = function(event) {
 					break;
 			}
 			var newlist = $('#tasks-status-' + list);
-			elgg.tasks.move(guid, newlist);
+			$('#elgg-object-' + guid).remove();
+			elgg.tasks.insert(guid, newlist);
 			elgg.tasks.updateTaskGraph();
 		}
 	});
@@ -92,50 +109,14 @@ elgg.tasks.changeStatus = function(event) {
 };
 
 $(function() {
-	if($.colorbox) {
-		$('.elgg-menu-title .elgg-menu-item-subtask a').click(function(event) {
-			$('#tasks-inline-form')
-				.slideToggle()
-				.find('[name="title"]').focus();
-			event.preventDefault();
-		});
-		$('#tasks-inline-form').submit(function(event) {
-			var values = {};
-			$.each($(this).serializeArray(), function(i, field) {
-				values[field.name] = field.value;
-			});
-			elgg.action($(this).attr('action'), {
-				data: values,
-				success: function(json) {
-					var unassignedlist = $('#tasks-status-unassigned').parent().parent();
-					elgg.get({
-						url: elgg.config.wwwroot + "ajax/view/object/task",
-						dataType: "html",
-						cache: false,
-						data: {
-							guid: json.output.guid,
-						},
-						success: function(htmlData) {
-							if (htmlData.length > 0) {
-								htmlData = '<li class="elgg-item" id="elgg-object-'
-												+ json.output.guid + '">' + htmlData + '</li>';
-								
-								if (unassignedlist.find('.elgg-list-entity').length > 0) {
-									unassignedlist.find('.elgg-list-entity').prepend(htmlData)
-								} else {
-									$('<ul class="elgg-list elgg-list-entity">').append(htmlData).appendTo(unassignedlist.show());
-								}
-							}
-						}
-					});
-					elgg.tasks.updateTaskGraph();
-				}
-			});
-			this.reset();
-			$(this).slideUp();
-			event.preventDefault();
-		});
-	}
+	$('.elgg-menu-title .elgg-menu-item-subtask a').click(function(event) {
+		$('#tasks-inline-form')
+			.slideToggle()
+			.find('[name="title"]').focus();
+		event.preventDefault();
+	});
+	
+	$('#tasks-inline-form').submit(elgg.tasks.newTask);
 	
 	$('body').delegate('.elgg-menu-tasks-hover li', 'click', elgg.tasks.changeStatus);
 	
