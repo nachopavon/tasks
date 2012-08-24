@@ -13,17 +13,6 @@ if (!$owner) {
 // access check for closed groups
 group_gatekeeper();
 
-$lists = elgg_get_entities(array(
-	'type' => 'object',
-	'subtype' => 'tasklist_top',
-	'container_guid' => $owner->guid,
-	'limit' => 2,
-));
-
-if (count($lists) == 1) {
-	forward($lists[0]->getURL());
-}
-
 $title = elgg_echo('tasks:lists:owner', array($owner->name));
 
 elgg_push_breadcrumb($owner->name);
