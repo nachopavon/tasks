@@ -25,13 +25,18 @@ if(!in_array($status, array('new', 'assigned', 'unassigned', 'active', 'done', '
 	$status = 'new';
 }
 
-$owner = get_entity($task->owner_guid);
+$annotation = $task->getAnnotations('task_state_changed', 1, 0, 'desc');
+if ($annotation) {
+	$annotation = $annotation[0];
+}
+
+$owner = get_entity($annotation->owner_guid);
 $owner_link = elgg_view('output/url', array(
 	'href' => "tasks/owner/$owner->username",
 	'text' => $owner->name,
 ));
 
-$date = elgg_view_friendly_time($task->time_status_changed);
+$date = elgg_view_friendly_time($annotation->time_created);
 $strapline = elgg_echo("tasks:strapline:$status", array($date, $owner_link));
 $tags = elgg_view('output/tags', array('tags' => $task->tags));
 

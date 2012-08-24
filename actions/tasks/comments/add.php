@@ -55,9 +55,7 @@ if (in_array($state_action, array('activate', 'assign_and_activate'))) {
 $new_state = tasks_get_state_from_action($state_action);
 
 if($new_state) {
-	$entity->status = $new_state;
-	$entity->time_status_changed = time();
-	
+	$entity->status = $new_state;	
 	create_annotation($entity->guid,
 					'task_state_changed',
 					$state_action,
