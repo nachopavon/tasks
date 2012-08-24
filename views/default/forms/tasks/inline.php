@@ -11,6 +11,10 @@ echo elgg_view('input/access', array(
 	'name' => 'access_id',
 	'value' => $vars['list']->access_id,
 ));
+echo elgg_view('input/hidden', array(
+	'name' => 'tags',
+	'value' => '',
+));
 echo '<div class="elgg-foot mtm">';
 echo elgg_view('input/hidden', array(
 	'name' => 'list_guid',
