@@ -121,6 +121,15 @@ function tasks_get_entities($options) {
 	return elgg_get_entities_from_metadata($options);
 }
 
+function tasks_can_edit($task) {
+	$container = $task->getContainerEntity();
+	if (elgg_instanceof($container, 'group')) {
+		return $container->isMember();
+	} else {
+		return elgg_is_logged_in();
+	}
+}
+
 function tasks_get_actions_from_state($state){
 	switch($state) {
 		
