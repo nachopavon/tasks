@@ -5,6 +5,8 @@
  * @package ElggTasks
  */
 
+group_gatekeeper();
+
 elgg_load_library('elgg:tasks');
 
 $entity_guid = (int) get_input('entity_guid');

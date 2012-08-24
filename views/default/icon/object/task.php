@@ -31,7 +31,7 @@ if (isset($vars['img_class'])) {
 	$img_class = $vars['img_class'];
 }
 
-$use_hover = elgg_extract('use_hover', $vars, tasks_can_edit($task));
+$use_hover = elgg_extract('use_hover', $vars, $task->canEdit());
 if (isset($vars['hover']) ) {
 	$use_hover = $vars['hover'];
 }

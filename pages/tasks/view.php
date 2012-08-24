@@ -35,7 +35,7 @@ elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($entity, array('full_view' => true));
 
-if (!$list && $entity->canEdit()) {
+if (!elgg_instanceof($entity, 'object', 'task') && $container->canWriteToContainer(0, 'object', 'task')) {
 
 	elgg_load_js('elgg.tasks');
 	
@@ -47,8 +47,9 @@ if (!$list && $entity->canEdit()) {
 			'link_class' => 'elgg-button elgg-button-action',
 	));
 	
-} else {
-	$content .= elgg_view_comments($entity);
+} elseif (elgg_instanceof($entity, 'object', 'task')) {
+	$can_comment = $entity->canEdit();
+	$content .= elgg_view_comments($entity, $can_comment);
 }
 
 $body = elgg_view_layout('content', array(

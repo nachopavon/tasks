@@ -105,6 +105,10 @@ function tasks_init() {
 		));
 	}
 
+	// write permission plugin hooks
+	elgg_register_plugin_hook_handler('permissions_check', 'object', 'tasks_write_permission_check');
+	elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'tasks_container_permission_check');
+	
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'tasks_icon_url_override');
 
@@ -194,6 +198,62 @@ function tasks_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
 	return "tasks/view/$entity->guid/$title";
 }
+
+/**
+ * Extend permissions checking to extend can-edit for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+function tasks_write_permission_check($hook, $entity_type, $returnvalue, $params)
+{
+	$entity = $params['entity'];
+	if ($entity->getSubtype() == 'task'
+		|| $entity->getSubtype() == 'tasklist'
+		|| $entity->getSubtype() == 'tasklist_top') {
+
+		$user = $params['user'];
+		$container = $entity->getContainerEntity();
+		if (elgg_instanceof($container, 'group')) {
+			return $container->canWriteToContainer($user->guid, 'object', $entity->getSubtype());
+		}
+	}
+}
+
+/**
+ * Extend container permissions checking to extend can_write_to_container for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+/*
+function tasks_container_permission_check($hook, $entity_type, $returnvalue, $params) {
+
+	if (elgg_get_context() == "tasks") {
+		if (elgg_get_page_owner_guid()) {
+			if (can_write_to_container(elgg_get_logged_in_user_guid(), elgg_get_page_owner_guid())) return true;
+		}
+		if ($page_guid = get_input('task_guid',0)) {
+			$entity = get_entity($task_guid);
+		} else if ($parent_guid = get_input('list_guid',0)) {
+			$entity = get_entity($list_guid);
+		}
+		if ($entity instanceof ElggObject) {
+			if (
+					can_write_to_container(elgg_get_logged_in_user_guid(), $entity->container_guid)
+					|| in_array($entity->write_access_id,get_access_list())
+				) {
+					return true;
+			}
+		}
+	}
+
+}
+*/
 
 /**
  * Override the default entity icon for tasks
