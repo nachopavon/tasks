@@ -28,6 +28,10 @@ if(!in_array($status, array('new', 'assigned', 'unassigned', 'active', 'done', '
 $annotation = $task->getAnnotations('task_state_changed', 1, 0, 'desc');
 if ($annotation) {
 	$annotation = $annotation[0];
+} else {
+	$annotation = new stdClass();
+	$annotation->owner_guid = $task->owner_guid;
+	$annotation->time_created = $task->time_created;
 }
 
 $owner = get_entity($annotation->owner_guid);
