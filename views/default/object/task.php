@@ -30,12 +30,15 @@ if ($annotation) {
 	$annotation = $annotation[0];
 }
 
-$owner = get_entity($annotation->owner_guid);
-$owner_link = elgg_view('output/url', array(
-	'href' => "tasks/owner/$owner->username",
-	'text' => $owner->name,
-));
-
+if (in_array($status, array('assigned', 'active', 'done'))) {
+	$owner_link = elgg_view('tasks/participant_count', array('entity' => $task));
+} else {
+	$owner = get_entity($annotation->owner_guid);
+	$owner_link = elgg_view('output/url', array(
+		'href' => "tasks/owner/$owner->username",
+		'text' => $owner->name,
+	));
+}
 $date = elgg_view_friendly_time($annotation->time_created);
 $strapline = elgg_echo("tasks:strapline:$status", array($date, $owner_link));
 $tags = elgg_view('output/tags', array('tags' => $task->tags));

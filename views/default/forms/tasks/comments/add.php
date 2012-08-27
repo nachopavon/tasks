@@ -26,7 +26,7 @@ if (isset($vars['entity']) && elgg_is_logged_in()) {
 		<?php
 		echo elgg_view('input/radio', array(
 			'name' => 'state_action',
-			'options' => tasks_prepare_radio_options($vars['entity']->status),
+			'options' => tasks_prepare_radio_options($vars['entity']),
 		));
 		?>
 	</div>

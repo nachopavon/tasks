@@ -19,3 +19,8 @@
 #tasks-inline-form {
 	padding: 10px
 }
+
+.elgg-tasks-participants {
+	position: absolute;
+	width: 345px;
+}

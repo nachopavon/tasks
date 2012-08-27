@@ -13,25 +13,15 @@ $num = (int) $vars['entity']->tasks_num;
 $options = array(
 	'type' => 'object',
 	'subtype' => 'task',
-	'owner_guid' => $vars['entity']->owner_guid,
-	'metadata_name' => 'status',
-	'metadata_value' => 'active',
+	'relationship_guid' => $vars['entity']->owner_guid,
+	'relationship' => 'subscribes',
 	'limit' => $num,
 	'full_view' => FALSE,
 	'pagination' => FALSE,
 );
-$content = elgg_list_entities_from_metadata($options);
+$content = elgg_get_entities_from_relationship($options);
 
-// And then the remaining assinged
-$num -= elgg_get_entities_from_metadata(array_merge($options, array('count' => true)));
-if ($num > 0) {
-	$content .= elgg_list_entities_from_metadata(array_merge($options, array(
-		'metadata_value' => 'assigned',
-		'limit' => $num,
-	)));
-}
-
-echo $content;
+echo elgg_view_entity_list($content, $options);
 
 if ($content) {
 	$url = "tasks/owner/" . elgg_get_page_owner_entity()->username;

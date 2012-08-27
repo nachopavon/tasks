@@ -165,12 +165,34 @@ function tasks_get_actions_from_state($state){
 	return $actions;
 }
 
-function tasks_prepare_radio_options($state) {
+function tasks_get_possible_actions($task, $user_guid) {
 	
-	$actions = tasks_get_actions_from_state($state);
+	if(!$user_guid) {
+		$user_guid = elgg_get_logged_in_user_guid();
+	}
+	
+	$is_doing = check_entity_relationship($user_guid, 'is_doing', $task->guid);
+	$subscribes = check_entity_relationship($user_guid, 'subscribes', $task->guid);
+
+	if ($task->status == 'active' && $is_doing) {
+		$status = 'active';
+	} elseif ($task->status == 'assigned' && $subscribes) {
+		$status = 'assigned';
+	} elseif ($task->status == 'active' || $task->status == 'assigned') {
+		$status = 'unassigned';
+	} else {
+		$status = $task->status;
+	}
+	
+	return tasks_get_actions_from_state($status);
+}
+
+function tasks_prepare_radio_options($task) {
+	
+	$actions = tasks_get_possible_actions($task);
 	
 	$actions_labels = array(
-		elgg_echo("tasks:state:action:noaction", array($state)) => '',
+		elgg_echo("tasks:state:action:noaction", array($task->status)) => '',
 	);
 	
 	foreach($actions as $action) {
@@ -181,8 +203,8 @@ function tasks_prepare_radio_options($state) {
 }
 
 function tasks_register_actions_menu($task) {
-	foreach (tasks_get_actions_from_state($task->status) as $action) {
-		$state = tasks_get_state_from_action($action);
+	
+	foreach (tasks_get_possible_actions($task) as $action) {
 		$action_url = "action/tasks/comments/add?" . http_build_query(array(
 			'entity_guid' => $task->guid,
 			'state_action' => $action,

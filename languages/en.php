@@ -50,6 +50,10 @@ $english = array(
 	'tasks:priority:low' => 'Low priority',
 	'tasks:priority:normal' => 'Normal priority',
 	'tasks:priority:high' => 'High prioritiy',
+	
+	'tasks:participant' => '%s participant',
+	'tasks:participants' => '%s participants',
+	'tasks:participants:see' => 'See who is participating in it',
 
 	/**
 	* River

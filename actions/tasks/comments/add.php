@@ -37,11 +37,33 @@ if($comment_text) {
 		forward(REFERER);
 	}
 }
+switch ($state_action) {
+	case 'assign':
+		add_entity_relationship(elgg_get_logged_in_user_guid(), 'subscribes', $entity_guid);
+		break;
+	case 'activate':
+		add_entity_relationship(elgg_get_logged_in_user_guid(), 'is_doing', $entity_guid);
+		break;
+	case 'assign_and_activate':
+		add_entity_relationship(elgg_get_logged_in_user_guid(), 'subscribes', $entity_guid);
+		add_entity_relationship(elgg_get_logged_in_user_guid(), 'is_doing', $entity_guid);
+		break;
+	case 'deactivate':
+		remove_entity_relationship(elgg_get_logged_in_user_guid(), 'is_doing', $entity_guid);
+		break;
+	case 'leave':
+		remove_entity_relationship(elgg_get_logged_in_user_guid(), 'is_doing', $entity_guid);
+		remove_entity_relationship(elgg_get_logged_in_user_guid(), 'subscribes', $entity_guid);
+		break;
+	case 'reopen':
+		remove_entity_relationships($entity_guid, 'is_doing', true);
+		remove_entity_relationships($entity_guid, 'subscribes', true);
+		break;
+}
 
 if (in_array($state_action, array('activate', 'assign_and_activate'))) {
 	if($active_task = tasks_get_user_active_task($user->guid)) {
 		$active_task->status = 'assigned';
-		$active_task->time_status_changed = time();
 		
 		create_annotation($active_task->guid,
 						'task_state_changed',
@@ -53,6 +75,34 @@ if (in_array($state_action, array('activate', 'assign_and_activate'))) {
 }
 
 $new_state = tasks_get_state_from_action($state_action);
+
+if ($state_action == 'leave') {
+	$have_participants_yet = elgg_get_entities_from_relationship(array(
+		'relationship' => 'subscribes',
+		'relationship_guid' => $entity->guid,
+		'inverse_relationship' => true,
+		'count' => true,
+	));
+	if ($have_participants_yet) {
+		$new_state = $entity->status;
+	}
+}
+
+if ($state_action == 'deactivate') {
+	$have_participants_yet = elgg_get_entities_from_relationship(array(
+		'relationship' => 'is_doing',
+		'relationship_guid' => $entity->guid,
+		'inverse_relationship' => true,
+		'count' => true,
+	));
+	if ($have_participants_yet) {
+		$new_state = $entity->status;
+	}
+}
+
+if ($state_action == 'assign' && $entity->status == 'active') {
+	$new_state = $entity->status;
+}
 
 if($new_state) {
 	$entity->status = $new_state;	
