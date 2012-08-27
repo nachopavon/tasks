@@ -36,7 +36,8 @@ $english = array(
 	'tasks:lists:view' => "View task list",
 
 	'tasks:via' => "via tasks",
-	'item:object:tasklist' => 'Task lists',
+	'item:object:tasklist_top' => 'Task lists top',
+	'item:object:tasklist' => 'Task lists ',
 	'item:object:task' => 'Tasks',
 	'tasks:nogroup' => 'This group does not have any tasks yet',
 	'tasks:more' => 'More tasks',
