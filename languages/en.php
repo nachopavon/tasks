@@ -69,7 +69,7 @@ $english = array(
 	'river:comment:object:tasklist' => '%s commented on a task list titled %s',
 	'river:comment:object:tasklist_top' => '%s commented on a task list titled %s',
 
-	'river:assign:object:task' => "%s assgined herself the task titled %s",
+	'river:assign:object:task' => "%s assigned herself the task titled %s",
 	'river:activate:object:task' => "%s set as active the task titled %s",
 	'river:assign_and_activate:object:task' => "%s assigned herself and set as active the task titled %s",
 	'river:deactivate:object:task' => "%s unset as active the task titled %s",
