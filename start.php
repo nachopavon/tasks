@@ -298,13 +298,19 @@ function tasks_pagesetup() {
 		}
 		$address = urlencode(current_page_url());
 		
-		elgg_register_menu_item('extras', array(
-			'name' => 'task',
-			'text' => elgg_view_icon('checkmark'),
-			'href' => "tasks/add/$container_guid?referer=$address",
-			'title' => elgg_echo('tasks:this'),
-			'rel' => 'nofollow',
-		));
+		$group = get_entity($container_guid);
+
+		// As long as it sets the task container as the same group, we
+		// cannot do it on a group that doesn't have tasks enabled.
+		if ($group->tasks_enable != "no") {
+			elgg_register_menu_item('extras', array(
+				'name' => 'task',
+				'text' => elgg_view_icon('checkmark'),
+				'href' => "tasks/add/$container_guid?referer=$address",
+				'title' => elgg_echo('tasks:this'),
+				'rel' => 'nofollow',
+			));
+		}
 	}
 }
 
