@@ -41,7 +41,7 @@ if (in_array($status, array('assigned', 'active', 'done')) && $more_than_one) {
 } else {
 	$owner = get_entity($annotation->owner_guid);
 	$owner_link = elgg_view('output/url', array(
-		'href' => "tasks/owner/$owner->username",
+		'href' => $owner->getURL(),
 		'text' => $owner->name,
 	));
 }

@@ -20,7 +20,7 @@ $icon = elgg_view('icon/default', array('entity' => $tasklist, 'size' => 'small'
 
 $owner = get_entity($tasklist->owner_guid);
 $owner_link = elgg_view('output/url', array(
-	'href' => "tasks/owner/$owner->username",
+	'href' => $owner->getURL(),
 	'text' => $owner->name,
 ));
 
