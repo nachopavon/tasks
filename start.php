@@ -292,16 +292,17 @@ function tasks_owner_block_menu($hook, $type, $return, $params) {
 function tasks_pagesetup() {
 	if (elgg_is_logged_in()) {
 		
-		$container_guid = elgg_get_page_owner_guid();
-		if (!$container_guid) {
-			$container_guid = elgg_get_logged_in_user_guid();
+		$container = elgg_get_page_owner_entity();
+		if (!$container || !elgg_instanceof($container, 'group') || $container->tasks_enable != 'yes') {
+			return false;
 		}
+		
 		$address = urlencode(current_page_url());
 		
 		elgg_register_menu_item('extras', array(
 			'name' => 'task',
 			'text' => elgg_view_icon('checkmark'),
-			'href' => "tasks/add/$container_guid?referer=$address",
+			'href' => "tasks/add/$container->guid?referer=$address",
 			'title' => elgg_echo('tasks:this'),
 			'rel' => 'nofollow',
 		));
