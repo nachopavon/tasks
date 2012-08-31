@@ -25,7 +25,9 @@ if(!in_array($status, array('new', 'assigned', 'unassigned', 'active', 'done', '
 	$status = 'new';
 }
 
-$annotation = $task->getAnnotations('task_state_changed', 1, 0, 'desc');
+$annotation = $task->getAnnotations('task_state_changed', 2, 0, 'desc');
+$more_than_one = count($annotation) > 1;
+
 if ($annotation) {
 	$annotation = $annotation[0];
 } else {
@@ -34,7 +36,7 @@ if ($annotation) {
 	$annotation->time_created = $task->time_created;
 }
 
-if (in_array($status, array('assigned', 'active', 'done'))) {
+if (in_array($status, array('assigned', 'active', 'done')) && $more_than_one) {
 	$owner_link = elgg_view('tasks/participant_count', array('entity' => $task));
 } else {
 	$owner = get_entity($annotation->owner_guid);
