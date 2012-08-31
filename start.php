@@ -294,7 +294,7 @@ function tasks_pagesetup() {
 		
 		$container = elgg_get_page_owner_entity();
 		if (!$container || !elgg_instanceof($container, 'group') || $container->tasks_enable != 'yes') {
-			return false;
+			return;
 		}
 		
 		$address = urlencode(current_page_url());
