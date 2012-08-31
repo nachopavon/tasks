@@ -38,6 +38,8 @@ if ($tasklist->canEdit()) {
 	foreach ($vars as $name => $dummy) {
 		if (isset($tasklist->$name)) {
 			$vars[$name] = $tasklist->$name;
+		} else {
+			$vars[$name] = false;
 		}
 	}
 
