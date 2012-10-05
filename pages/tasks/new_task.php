@@ -12,7 +12,7 @@ $list = get_entity($list_guid);
 if (!$list) {
 }
 
-if (elgg_instanceof($list, 'object', 'tasklist_top') || elgg_instanceof($list, 'object', 'tasklist')) {
+if (elgg_instanceof($list, 'object', 'task') || elgg_instanceof($list, 'object', 'tasklist')) {
 	$container = $list->getContainerEntity();
 	if (!$container) {
 		$container = elgg_get_logged_in_user_guid();

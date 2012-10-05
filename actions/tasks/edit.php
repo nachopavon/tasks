@@ -72,7 +72,7 @@ if (!$input['list_guid']) {
 		
 	} else {
 		$list = new ElggObject();
-		$list->subtype = 'tasklist_top';
+		$list->subtype = 'task';
 		$list->title = elgg_echo('tasks:owner', array($container->name));
 		$list->container_guid = $container->getGUID();
 		$list->access_id = ACCESS_PRIVATE;

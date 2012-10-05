@@ -17,6 +17,14 @@ if (!$task) {
 	return TRUE;
 }
 
+$options = array('metadata_name' => 'list_guid', 'metadata_value' => $task->guid, 'type' => 'object', 'subtype' => 'task');
+$has_children = elgg_get_entities_from_metadata($options);
+if ($has_children) {
+   echo elgg_view('object/tasklist_top', $vars);
+   return;
+}
+
+
 $icon = elgg_view_entity_icon($task, 'tiny');
 
 $status = $task->status;
@@ -61,8 +69,9 @@ if ($comments_count != 0) {
 	$comments_link = '';
 }
 
+
 $metadata = elgg_view_menu('entity', array(
-	'entity' => $vars['entity'],
+	'entity' => $task,
 	'handler' => 'tasks',
 	'sort_by' => 'priority',
 	'class' => 'elgg-menu-hz',
@@ -77,6 +86,15 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	$body = elgg_view('output/longtext', array('value' => $task->description));
+	$new_task_form = elgg_view_form('tasks/inline', array(
+		'id' => 'tasks-inline-form',
+		'class' => 'hidden',
+		'action' => 'action/tasks/edit',
+	), array(
+		'list' => $task,
+	));
+	
+	$body .= $new_task_form;
 
 	$params = array(
 		'entity' => $page,

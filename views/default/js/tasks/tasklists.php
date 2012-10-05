@@ -15,6 +15,10 @@ elgg.tasks.newTask = function(event) {
 		data: values,
 		success: function(json) {
 			var unassignedlist = $('#tasks-status-unassigned');
+			if (!unassignedlist.length) {
+				window.location.reload();
+				return;
+			}
 			elgg.tasks.insert(json.output.guid, unassignedlist);
 			elgg.tasks.updateTaskGraph();
 		}

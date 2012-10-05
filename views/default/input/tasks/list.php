@@ -19,8 +19,9 @@ if ($entities) {
 	$options_values = array(0 => elgg_echo('tasks:owner', array($container_name)));
 }
 
-echo elgg_view('input/dropdown', array(
+/*echo elgg_view('input/dropdown', array(
 	'name' => $vars['name'],
 	'options_values' => $options_values,
 	'value' => $vars['value'],
-));
+));*/
+echo elgg_view('input/hidden', array('name' => $vars['name'], 'value' => $vars['value']));
