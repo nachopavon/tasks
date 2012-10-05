@@ -45,7 +45,7 @@ $icon = elgg_view('output/img', array(
 ));
 
 ?>
-<div class="elgg-avatar">
+<div class="elgg-avatar elgg-task-icon">
 <?php
 
 if ($use_hover) {
