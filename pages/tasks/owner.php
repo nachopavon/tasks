@@ -17,15 +17,18 @@ $title = elgg_echo('tasks:lists:owner', array($owner->name));
 
 elgg_push_breadcrumb($owner->name);
 
-elgg_register_title_button('tasks', 'addlist');
 elgg_register_title_button('tasks', 'add');
 
-$content = elgg_list_entities(array(
+$options = array(
 	'type' => 'object',
-	'subtypes' => 'tasklist_top',
+	'subtypes' => 'task',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'full_view' => false,
-));
+	'metadata_name' => 'list_guid',
+	'metadata_value' => 0,
+);
+
+$content = elgg_list_entities_from_metadata($options);
 
 if (!$content) {
 	$content = '<p>' . elgg_echo('tasks:none') . '</p>';

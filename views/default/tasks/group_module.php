@@ -23,8 +23,9 @@ $options = array(
 	'limit' => 6,
 	'full_view' => false,
 	'pagination' => false,
+	'list_guid' => 0,
 );
-$content = elgg_list_entities($options);
+$content = elgg_list_entities_from_metadata($options);
 elgg_pop_context();
 
 if (!$content) {

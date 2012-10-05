@@ -254,10 +254,12 @@ function tasks_register_navigation_tree($container) {
 		return;
 	}
 
-	$tasklists_top = elgg_get_entities(array(
+	$tasklists_top = elgg_get_entities_from_metadata(array(
 		'type' => 'object',
-		'subtype' => 'tasklist_top',
+		'subtype' => 'task',
 		'container_guid' => $container->getGUID(),
+		'metadata_name' => 'list_guid',
+		'metadata_value' => $container->getGUID(),
 		'limit' => 0,
 	));
 
@@ -278,7 +280,7 @@ function tasks_register_navigation_tree($container) {
 			$list = array_pop($stack);
 			$tasklists = elgg_get_entities_from_metadata(array(
 				'type' => 'object',
-				'subtype' => 'tasklist',
+				'subtype' => 'task',
 				'metadata_name' => 'list_guid',
 				'metadata_value' => $list->guid,
 				'container_guid' => $container->getGUID(),

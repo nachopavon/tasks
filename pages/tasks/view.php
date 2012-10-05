@@ -31,7 +31,7 @@ if (elgg_instanceof($container, 'user')) {
 }
 
 $crumbs = array();
-while($list) {
+while($list && !($list instanceof ElggUser || $list instanceof ElggGroup)) {
 	array_unshift($crumbs, $list);
 	$list = get_entity($list->list_guid);
 }

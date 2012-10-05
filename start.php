@@ -57,8 +57,6 @@ function tasks_init() {
 
 	// Register granular notification for this type
 	register_notification_object('object', 'task', elgg_echo('tasks:new'));
-	register_notification_object('object', 'tasklist', elgg_echo('tasks:tasklist:new'));
-	register_notification_object('object', 'tasklist_top', elgg_echo('tasks:tasklist:new'));
 	elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'tasks_notify_message');
 
 	// add to groups
@@ -74,19 +72,12 @@ function tasks_init() {
 		'title' => 'text',
 		'description' => 'longtext',
 		'list_guid' => 'tasks/list',
+		'enddate' => 'date',
 		'priority' => 'tasks/priority',
 		'tags' => 'tags',
 		'access_id' => 'access',
 	));
 	
-	elgg_set_config('tasklists', array(
-		'title' => 'text',
-		'description' => 'longtext',
-		'enddate' => 'date',
-		'tags' => 'tags',
-		'access_id' => 'access',
-	));
-
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'tasks_owner_block_menu');
 
 	elgg_register_event_handler('pagesetup', 'system', 'tasks_pagesetup');
@@ -149,10 +140,6 @@ function tasks_page_handler($page) {
 		case 'add':
 			set_input('guid', $page[1]);
 			include "$base_dir/new_task.php";
-			break;
-		case 'addlist':
-			set_input('guid', $page[1]);
-			include "$base_dir/new_tasklist.php";
 			break;
 		case 'edit':
 			set_input('guid', $page[1]);

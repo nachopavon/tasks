@@ -60,33 +60,14 @@ if (sizeof($input) > 0) {
 	}
 }
 
-if (!$input['list_guid']) {
-	$lists = elgg_get_entities(array(
-		'type' => 'object',
-		'subtype' => '',
-		'container_guid' => $container->guid,
-	));
-	if (!empty($lists)) {
-		$list = array_shift($lists);
-		$list_guid = $list->guid;
-		
-	} else {
-		$list = new ElggObject();
-		$list->subtype = 'task';
-		$list->title = elgg_echo('tasks:owner', array($container->name));
-		$list->container_guid = $container->getGUID();
-		$list->access_id = ACCESS_PRIVATE;
-		if(!$list->save()) {
-			register_error(elgg_echo('tasks:error:no_save'));
-			forward(REFERER);
-		}
-		$list_guid = $list->guid;
-	}
-} else {
-	$list_guid = $input['list_guid'];
-}
+$list_guid = $input['list_guid'];
 
-$task->list_guid = $list_guid;
+if ($list_guid) {
+	$task->list_guid = $list_guid;
+}
+else {
+	$task->list_guid = 0;
+}
 $task->container_guid = $container_guid;
 
 if ($task->save()) {

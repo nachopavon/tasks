@@ -19,6 +19,8 @@ if (elgg_instanceof($list, 'object', 'task') || elgg_instanceof($list, 'object',
 	}
 } elseif (elgg_instanceof($list, 'user') || elgg_instanceof($list, 'group')) {
 	$container = $list;
+	// not a real list
+	$list_guid = null;
 }
 
 elgg_set_page_owner_guid($container->getGUID());
@@ -31,6 +33,7 @@ if (elgg_instanceof($container, 'user')) {
 
 $title = elgg_echo('tasks:add');
 elgg_push_breadcrumb($title);
+
 
 $vars = task_prepare_form_vars(null, $list_guid);
 

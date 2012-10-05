@@ -10,20 +10,22 @@ $title = elgg_echo('tasks:all');
 elgg_pop_breadcrumb();
 elgg_push_breadcrumb(elgg_echo('tasks'));
 
-$lists = elgg_get_entities(array(
+$lists = elgg_get_entities_from_metadata(array(
 	'type' => 'object',
-	'subtype' => 'tasklist_top',
+	'subtype' => 'task',
 	'count' => true,
+	'metadata_name' => 'list_guid',
+	'metadata_value' => 0,
 ));
 
-elgg_register_title_button('tasks', 'addlist');
 elgg_register_title_button('tasks', 'add');
 
-
-$content = elgg_list_entities(array(
+$content = elgg_list_entities_from_metadata(array(
 	'type' => 'object',
-	'subtype' => $lists ? 'tasklist_top' : 'task',
+	'subtype' => 'task',
 	'full_view' => false,
+	'metadata_name' => 'list_guid',
+	'metadata_value' => 0,
 ));
 if (!$content) {
 	$content = '<p>' . elgg_echo('tasks:none') . '</p>';

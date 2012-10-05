@@ -9,11 +9,16 @@ $variables = elgg_get_config('tasks');
 foreach ($variables as $name => $type) {
 ?>
 <div>
+<?php
+	// dont show label for task lists since for now it's hidden
+	if ($type != 'tasks/list') {
+?>
 	<label><?php echo elgg_echo("tasks:$name") ?></label>
 	<?php
 		if ($type != 'longtext') {
 			echo '<br />';
 		}
+	}
 	?>
 	<?php echo elgg_view("input/$type", array(
 			'name' => $name,

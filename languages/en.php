@@ -114,7 +114,7 @@ $english = array(
 	'tasks:lists:title' => 'Name',
 	'tasks:lists:description' => 'Description',
 	'tasks:lists:startdate' => 'Start date',
-	'tasks:lists:enddate' => 'End date (deadline)',
+	'tasks:enddate' => 'End date (deadline)',
 	'tasks:lists:tags' => 'Tags',
 	'tasks:lists:access_id' => 'Who can see this task list?',
 
