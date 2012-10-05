@@ -16,7 +16,7 @@ if (!$tasklist) {
 	return TRUE;
 }
 
-$icon = elgg_view('icon/default', array('entity' => $tasklist, 'size' => 'small'));
+$icon = elgg_view_entity_icon($tasklist, 'tiny');
 
 $owner = get_entity($tasklist->owner_guid);
 $owner_link = elgg_view('output/url', array(
