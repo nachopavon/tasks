@@ -165,7 +165,7 @@ function tasks_get_actions_from_state($state){
 	return $actions;
 }
 
-function tasks_get_possible_actions($task, $user_guid) {
+function tasks_get_possible_actions($task, $user_guid = 0) {
 	
 	if(!$user_guid) {
 		$user_guid = elgg_get_logged_in_user_guid();
