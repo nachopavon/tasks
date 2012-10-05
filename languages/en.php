@@ -196,7 +196,7 @@ $english = array(
 	'tasks:sidebar:this' => "This list",
 	'tasks:sidebar:children' => "List tasks",
 	'tasks:sidebar:list' => "List",
-	'tasks:navigation' => 'Task lists',
+	'tasks:navigation' => 'Tasks',
 
 	'tasks:newchild' => "Create a task in this list",
 	'tasks:backtolist' => "Back to '%s'",
