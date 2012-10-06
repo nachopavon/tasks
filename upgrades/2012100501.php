@@ -5,11 +5,10 @@
  * First determine if the upgrade is needed and then if needed, batch the update
  */
 
-$tasks = elgg_get_entities_from_metadata(array(
+$tasks = elgg_get_entities(array(
 	'type' => 'object',
-	'subtype' => 'task',
+	'subtype' => 'tasks',
 	'limit' => 1,
-	'metadata_name' => 'long_description',
 ));
 
 // if not topics, no upgrade required
@@ -18,6 +17,7 @@ if (empty($tasks)) {
 }
 
 function tasks_2012100501($task) {
+	require_once(elgg_get_plugins_path() . 'upgrade-tools/lib/upgrade_tools.php');
 	if ($task->long_description) {
 		$task->description = $task->long_description;
 		$task->deleteMetadata('long_description');
@@ -35,6 +35,7 @@ function tasks_2012100501($task) {
 		$task->status = 'done';
 		$task->deleteMetadata('done');
 	}
+	upgrade_change_subtype($post, 'task');
 	return true;
 }
 
