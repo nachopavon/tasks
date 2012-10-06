@@ -38,6 +38,11 @@ function tasks_2012100501($task) {
 		$task->status = 'done';
 		$task->deleteMetadata('done');
 	}
+	if (!$task->status) {
+		$task->status = 'new';
+	}
+	// reset priority since old system was a mess
+	$task->priority = 2;
 	upgrade_change_subtype($task, 'task');
 	return true;
 }
