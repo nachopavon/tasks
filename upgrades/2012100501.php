@@ -35,7 +35,7 @@ function tasks_2012100501($task) {
 		$task->status = 'done';
 		$task->deleteMetadata('done');
 	}
-	upgrade_change_subtype($post, 'task');
+	upgrade_change_subtype($task, 'task');
 	return true;
 }
 
