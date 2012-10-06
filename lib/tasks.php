@@ -251,7 +251,6 @@ function tasks_get_user_active_task ($user_guid) {
  */
 function tasks_register_navigation_tree($container) {
 	if (!$container) {
-		error_log("no container");
 		return;
 	}
 
@@ -265,7 +264,6 @@ function tasks_register_navigation_tree($container) {
 	));
 
 	if (!$tasklists_top) {
-		error_log("no container tre");
 		return;
 	}
 
