@@ -88,7 +88,15 @@ function tasks_init() {
 	elgg_register_plugin_hook_handler('get_views', 'ecml', 'tasks_ecml_views_hook');
 	
 	elgg_register_plugin_hook_handler('format', 'friendly:time', 'tasks_get_friendly_time');
+        elgg_register_event_handler('upgrade', 'system', 'tasks_run_upgrades');
 }
+
+function tasks_run_upgrades($event, $type, $details) {
+        if (include_once(elgg_get_plugins_path() . 'upgrade-tools/lib/upgrade_tools.php')) {
+        	upgrade_module_run('tasks');
+	}
+}
+
 
 /**
  * Dispatcher for tasks.
