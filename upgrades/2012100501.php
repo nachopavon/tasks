@@ -27,6 +27,9 @@ function tasks_2012100501($task) {
 		$task->list_guid = $task->parent_guid;
 		$task->deleteMetadata('parent_guid');
 	}
+	else {
+		$task->list_guid = 0;
+	}
 	if ($task->active) {
 		$task->status = 'active';
 		$task->deleteMetadata('active');
