@@ -44,6 +44,19 @@ function tasks_2012100501($task) {
 	// reset priority since old system was a mess
 	$task->priority = 2;
 	upgrade_change_subtype($task, 'task');
+
+	// update river
+	$options = array('object_guid' => $task->guid);
+	$items = elgg_get_river($options);
+	foreach($items as $item) {
+		if ($item->action_type == 'create') {
+			upgrade_update_river($item->id, 'river/object/task/create', $task->guid, 0);
+		}
+		elseif(in_array($item->action_type, array('done', 'undone', 'subscribe', 'unsubscribe'))) {
+			elgg_delete_river(array('id' => $item->id));
+		}
+	}
+
 	return true;
 }
 
