@@ -46,7 +46,7 @@ function tasks_2012100501($task) {
 $previous_access = elgg_set_ignore_access(true);
 $options = array(
 	'type' => 'object',
-	'subtype' => 'task',
+	'subtype' => 'tasks',
 	'limit' => 0,
 );
 $batch = new ElggBatch('elgg_get_entities', $options, "tasks_2012100501", 100);
