@@ -30,15 +30,14 @@ function tasks_2012100501($task) {
 	else {
 		$task->list_guid = 0;
 	}
-	if ($task->active) {
-		$task->status = 'active';
-		$task->deleteMetadata('active');
-	}
+	/* Active was set as default, so it is not indicative of which tasks are
+	really active */
+	$task->deleteMetadata('active');
+
 	if ($task->done) {
 		$task->status = 'done';
 		$task->deleteMetadata('done');
-	}
-	if (!$task->status) {
+	} else {
 		$task->status = 'new';
 	}
 	// reset priority since old system was a mess
