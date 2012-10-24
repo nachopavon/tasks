@@ -44,7 +44,7 @@ elgg_push_breadcrumb($title);
 $content = elgg_view_entity($entity, array('full_view' => true));
 
 //if (!elgg_instanceof($entity, 'object', 'task') && $container->canWriteToContainer(0, 'object', 'task')) {
-
+if ($container->canWriteToContainer(0, 'object', 'task')) {
 	elgg_load_js('elgg.tasks');
 	
 	$url = "tasks/add/$entity->guid";
@@ -57,6 +57,7 @@ $content = elgg_view_entity($entity, array('full_view' => true));
 	
 	$can_comment = $entity->canEdit();
 	$content .= elgg_view_comments($entity, $can_comment);
+}
 /*} elseif (elgg_instanceof($entity, 'object', 'task')) {
 }*/
 
