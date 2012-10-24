@@ -29,7 +29,7 @@ elgg.tasks.newTask = function(event) {
 }
 
 elgg.tasks.updateTaskGraph = function() {
-	var tasklist_graph = $('.tasklist-graph').parent();
+	var tasklist_graph = $('.elgg-main > .elgg-item .tasklist-graph').parent();
 	var guid = parseInt(window.location.href.substr(elgg.config.wwwroot.length + 'tasks/view/'.length));
 	elgg.get({
 		url: elgg.config.wwwroot + "ajax/view/tasks/tasklist_graph",
