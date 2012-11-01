@@ -211,6 +211,25 @@ $english = array(
 	'friendlytime:future:days' => "in %s days",
 	'friendlytime:future:days:singular' => "tomorrow",
 
+	/**
+	 * Comments 
+	 */
+	'tasks:email:subject' => 'Task changed state',
+	'tasks:email:body' => "%s changed your task \"%s\" state to %s.
+
+
+%s
+
+
+To reply or view the original item, click here:
+
+%s
+
+To view %s's profile, click here:
+
+%s
+
+You cannot reply to this email.",
 );
 
 add_translation("en", $english);

@@ -117,18 +117,34 @@ if($new_state) {
 // notify if poster wasn't owner
 if ($entity->owner_guid != $user->guid) {
 
-	notify_user($entity->owner_guid,
-				$user->guid,
-				elgg_echo('generic_comment:email:subject'),
-				elgg_echo('generic_comment:email:body', array(
-					$entity->title,
-					$user->name,
-					$comment_text,
-					$entity->getURL(),
-					$user->name,
-					$user->getURL()
-				))
-			);
+	if($new_state) {
+		notify_user($entity->owner_guid,
+			$user->guid,
+			elgg_echo('tasks:email:subject'),
+			elgg_echo('tasks:email:body', array(
+				$user->name,
+				$entity->title,
+				$new_state,
+				$comment_text,
+				$entity->getURL(),
+				$user->name,
+				$user->getURL()
+			))
+		);
+	} else {
+		notify_user($entity->owner_guid,
+			$user->guid,
+			elgg_echo('generic_comment:email:subject'),
+			elgg_echo('generic:email:body', array(
+				$entity->title,
+				$user->name,
+				$comment_text,
+				$entity->getURL(),
+				$user->name,
+				$user->getURL()
+			))
+		);
+	}
 }
 
 if ($new_state) {

@@ -356,13 +356,9 @@ function tasks_comments_hook($hook, $entity_type, $returnvalue, $params) {
 */
 function tasks_notify_message($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];
-	$to_entity = $params['to_entity'];
-	$method = $params['method'];
-	if (($entity instanceof ElggEntity) && (in_array($entity->getSubtype(), array('task')))) {
+	if (elgg_instanceof($entity, 'object', 'task')) {
 		$descr = $entity->description;
 		$title = $entity->title;
-		//@todo why?
-		$url = elgg_get_site_url() . "view/" . $entity->guid;
 		$owner = $entity->getOwnerEntity();
 		return $owner->name . ' ' . elgg_echo("tasks:via") . ': ' . $title . "\n\n" . $descr . "\n\n" . $entity->getURL();
 	}
