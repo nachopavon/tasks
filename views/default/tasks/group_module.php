@@ -3,6 +3,8 @@
  * Group tasks module
  */
 
+elgg_load_library('elgg:tasks');
+
 $group = elgg_get_page_owner_entity();
 
 if ($group->tasks_enable == "no") {
@@ -16,16 +18,18 @@ $all_link = elgg_view('output/url', array(
 ));
 
 elgg_push_context('widgets');
-$options = array(
+$entities = tasks_get_entities(array(
 	'type' => 'object',
-	'subtype' => 'tasklist_top',
+	'subtype' => 'task',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'limit' => 6,
+	'list_guid' => 0,
+));
+
+$content = elgg_view_entity_list($entities, array(
 	'full_view' => false,
 	'pagination' => false,
-	'list_guid' => 0,
-);
-$content = elgg_list_entities_from_metadata($options);
+));
 elgg_pop_context();
 
 if (!$content) {
@@ -33,8 +37,8 @@ if (!$content) {
 }
 
 $new_link = elgg_view('output/url', array(
-	'href' => "tasks/addlist/$group->guid",
-	'text' => elgg_echo('tasks:lists:add'),
+	'href' => "tasks/add/$group->guid",
+	'text' => elgg_echo('tasks:add'),
 	'is_trusted' => true,
 ));
 
