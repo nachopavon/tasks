@@ -69,7 +69,7 @@ $options = array(
 	'subtype' => 'tasks',
 	'limit' => 0,
 );
-$batch = new ElggBatch('elgg_get_entities', $options, "tasks_2012100501", 100);
+$batch = new ElggBatch('elgg_get_entities', $options, "tasks_2012100501", 100, false);
 elgg_set_ignore_access($previous_access);
 
 if ($batch->callbackResult) {
