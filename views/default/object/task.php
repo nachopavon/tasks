@@ -93,6 +93,8 @@ if ($full) {
 	), array(
 		'list' => $task,
 	));
+
+	$body .= elgg_view('tasks/info/extend', $vars);
 	
 	$body .= $new_task_form;
 
