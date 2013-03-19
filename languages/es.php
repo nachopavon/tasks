@@ -2,7 +2,7 @@
 $language = array (
   'tasks' => 'Tareas',
   'tasks:owner' => 'Tareas de %s',
-  'tasks:friends' => 'Tareas de amigxs',
+  'tasks:friends' => 'Tareas de amigos',
   'tasks:all' => 'Todas las tareas del sitio',
   'tasks:add' => 'Añadir tarea',
   'tasks:addlist' => 'Añadir lista',
@@ -91,7 +91,7 @@ $language = array (
   'tasks:error:no_title' => 'Debes especificar un título para esta tarea.',
   'tasks:delete:success' => 'La tarea se ha borrado correctamente.',
   'tasks:delete:failure' => 'La tarea no se ha podido borrar.',
-  'tasks:status:changed' => 'El estado de esta tarea ha canviado correctamente',
+  'tasks:status:changed' => 'El estado de esta tarea ha cambiado correctamente',
   'tasks:lists:noaccess' => 'No tienes acceso a la lista de tareas',
   'tasks:lists:cantedit' => 'No puedes editar esta lista de tareas',
   'tasks:lists:saved' => 'Lista de tareas guardada',
